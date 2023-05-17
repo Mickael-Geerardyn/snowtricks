@@ -1,22 +1,32 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+
+<nav
+        class="navbar navbar-expand-lg bg-light bg-gradient fixed-bottom sticky-lg-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#"><img
+                    src="{{ asset('images/snowtricks-logo.png') }}"
+                    class="img-fluid"
+                    style="width: 10%;"
+                    alt="..."></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse justify-content-end"
+             id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#">Tricks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href="#">Sign in</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
+                    <a class="nav-link" href="{{ path("sign_up_page") }}">Sign up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Logout</a>
                 </li>
             </ul>
         </div>
