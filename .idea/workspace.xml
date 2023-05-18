@@ -5,21 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d076bad1-f422-4129-897a-f99ac971f3a2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/images/picture-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/picture-2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/picture-3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/picture-4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/picture-5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/picture-6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/picture-7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/footer.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/home/homepage.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/scripts.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/images/16908.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/16908.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/images/snowtricks-logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/snowtricks-logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/twig.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/twig.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Figure.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Figure.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/auth/sign-up.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home/homepage.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/homepage.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/navbar.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -215,33 +207,34 @@
     <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "//wsl$/Ubuntu/var/www/openclassrooms/projet6/snowtricks/public/images",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "php.override.implement.member.chooser.php.doc": "NONE",
-    "settings.editor.selected.configurable": "preferences.editor",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;//wsl$/Ubuntu/var/www/openclassrooms/projet6/snowtricks/public/images&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="\\wsl$\Ubuntu\var\www\openclassrooms\projet6\snowtricks\public\images" />
       <recent name="\\wsl$\Ubuntu\var\www\openclassrooms\projet6\snowtricks\templates\images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="\\wsl$\Ubuntu\var\www\openclassrooms\projet6\snowtricks\templates\registration" />
       <recent name="\\wsl$\Ubuntu\var\www\openclassrooms\projet6\snowtricks\templates\home" />
       <recent name="\\wsl$\Ubuntu\var\www\openclassrooms\projet6\snowtricks\public" />
     </key>
@@ -271,7 +264,8 @@
       <workItem from="1684094792333" duration="23000" />
       <workItem from="1684094855368" duration="10321000" />
       <workItem from="1684191281022" duration="6920000" />
-      <workItem from="1684277054656" duration="5490000" />
+      <workItem from="1684277054656" duration="5790000" />
+      <workItem from="1684356836664" duration="12125000" />
     </task>
     <servers />
   </component>

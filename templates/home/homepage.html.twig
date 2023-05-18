@@ -1,6 +1,12 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+    {% if (success is defined or danger is defined) %}
+    <div class="alert alert-{{ (success is not empty) ? "success" : "danger" }}"
+         role="alert">
+        A simple success alert—check it out!
+    </div>
+    {% endif %}
     <div class="container-fluid px-0">
         <img src="{{ asset('images/16908.jpg') }}" class="img-fluid
         mx-xl-auto d-block object-fit-contain"

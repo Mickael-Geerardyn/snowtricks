@@ -20,10 +20,12 @@ class Figure
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::INTEGER)]
+	#[ORM\ManyToOne(targetEntity: Groupe::class, inversedBy: 'id')]
     private ?int $groupe_id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::INTEGER)]
+	#[ORM\OneToMany(mappedBy: "id", targetEntity: User::class)]
     private ?int $user_id = null;
 
     public function getId(): ?int
