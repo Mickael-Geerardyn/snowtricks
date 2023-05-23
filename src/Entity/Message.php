@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MessageRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,16 +15,29 @@ class Message
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: false)]
     private ?string $content = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    #[ORM\Column(type: Types::STRING, length: 50, nullable: false)]
+    private string|DateTimeImmutable $created_at;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	#[ORM\ManyToOne(targetEntity: Figure::class, inversedBy: "messages")]
+	#[ORM\JoinColumn(nullable: false)]
+	private ?Figure $figure = null;
+
+    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+	public function __construct()
+	{
+		$this->created_at = new DateTimeImmutable();
+	}
+
+	public function getId(): ?int
+             {
+                 return $this->id;
+             }
 
     public function getContent(): ?string
     {
@@ -37,14 +51,38 @@ class Message
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
+    public function getCreatedAt(): string
+	{
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setCreatedAt(): self
     {
-        $this->created_at = $created_at;
+        $this->created_at = $this->created_at->format("d-m-Y");
+
+        return $this;
+    }
+
+    public function getFigure(): ?Figure
+    {
+        return $this->figure;
+    }
+
+    public function setFigure(?Figure $figure): self
+    {
+        $this->figure = $figure;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

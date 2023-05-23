@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\FigureRepository;
+use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,13 +23,33 @@ class Figure
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-	#[ORM\ManyToOne(targetEntity: Groupe::class, inversedBy: 'id')]
-    private ?int $groupe_id = null;
+	#[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'figures')]
+	#[ORM\JoinColumn(nullable: false)]
+	private ?User $user = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-	#[ORM\OneToMany(mappedBy: "id", targetEntity: User::class)]
-    private ?int $user_id = null;
+    #[ORM\ManyToOne(inversedBy: 'figures')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Groupe $groupe = null;
+
+	#[ORM\OneToMany(mappedBy: 'figure', targetEntity: Message::class)]
+	private Collection $messages;
+
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Video::class, orphanRemoval: true)]
+    private Collection $videos;
+
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Image::class, orphanRemoval: true)]
+    private Collection $images;
+
+    #[ORM\Column(length: 50)]
+    private string|DateTimeImmutable $created_at;
+
+	public function __construct()
+         	{
+         		$this->messages = new ArrayCollection();
+         		$this->videos = new ArrayCollection();
+         		$this->images = new ArrayCollection();
+				 $this->created_at = new DateTimeImmutable();
+         	}
 
     public function getId(): ?int
     {
@@ -57,26 +80,129 @@ class Figure
         return $this;
     }
 
-    public function getGroupeId(): ?int
+
+    public function getUser(): ?User
     {
-        return $this->groupe_id;
+        return $this->user;
     }
 
-    public function setGroupeId(int $groupe_id): self
+    public function setUser(?User $user): self
     {
-        $this->groupe_id = $groupe_id;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getGroupe(): ?Groupe
     {
-        return $this->user_id;
+        return $this->groupe;
     }
 
-    public function setUserId(int $user_id): self
+    public function setGroupe(?Groupe $groupe): self
     {
-        $this->user_id = $user_id;
+        $this->groupe = $groupe;
+
+        return $this;
+    }
+
+	/**
+	 * @return Collection<int, Message>
+	 */
+	public function getMessages(): Collection
+         	{
+         		return $this->messages;
+         	}
+
+	public function addMessage(Message $message): self
+         	{
+         		if (!$this->messages->contains($message)) {
+         			$this->messages->add($message);
+         			$message->setFigure($this);
+         		}
+         
+         		return $this;
+         	}
+
+	public function removeMessage(Message $message): self
+         	{
+         		if ($this->messages->removeElement($message)) {
+         			// set the owning side to null (unless already changed)
+         			if ($message->getUser() === $this) {
+         				$message->setFigure(null);
+         			}
+         		}
+         
+         		return $this;
+         	}
+
+    /**
+     * @return Collection<int, Video>
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos->add($video);
+            $video->setFigure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getFigure() === $this) {
+                $video->setFigure(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setFigure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getFigure() === $this) {
+                $image->setFigure(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?string
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(): self
+    {
+        $this->created_at = $this->created_at->format("d-m-Y");
 
         return $this;
     }

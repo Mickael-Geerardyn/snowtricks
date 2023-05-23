@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\VideoRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
@@ -16,15 +17,17 @@ class Video
     #[ORM\Column(length: 50)]
     private ?string $path = null;
 
-    #[ORM\Column]
-    private ?int $figure_id = null;
+    #[ORM\Column(length: 50)]
+    private string|DateTimeImmutable $created_at;
 
-    #[ORM\Column]
-    private ?int $user_id = null;
+    #[ORM\ManyToOne(inversedBy: 'videos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Figure $figure = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
+	public function __construct()
+	{
+		$this->created_at = new DateTimeImmutable();
+	}
     public function getId(): ?int
     {
         return $this->id;
@@ -42,38 +45,26 @@ class Video
         return $this;
     }
 
-    public function getFigureId(): ?int
-    {
-        return $this->figure_id;
-    }
-
-    public function setFigureId(int $figure_id): self
-    {
-        $this->figure_id = $figure_id;
-
-        return $this;
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(int $user_id): self
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?string
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setCreatedAt(?DateTimeImmutable $created_at): self
     {
-        $this->created_at = $created_at;
+        $this->created_at = $created_at->format("d-m-Y");
+
+        return $this;
+    }
+
+    public function getFigure(): ?Figure
+    {
+        return $this->figure;
+    }
+
+    public function setFigure(?Figure $figure): self
+    {
+        $this->figure = $figure;
 
         return $this;
     }

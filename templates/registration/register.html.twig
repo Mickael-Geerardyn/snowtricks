@@ -8,15 +8,17 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1 class="mb-5">S'enregistrer</h1>
+    <h1 class="mb-5 m-0">S'enregistrer</h1>
 
+        <div class="border border-dark p-5">
     {{ form_start(registrationForm) }}
     {{ form_row(registrationForm.name) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword) }}
 
         <button type="submit" class="btn btn-primary
-        mt-4">S'enregistrer</button>
+        mt-4">Create an account</button>
     {{ form_end(registrationForm) }}
+        </div>
 </div>
 {% endblock %}

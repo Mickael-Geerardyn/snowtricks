@@ -20,11 +20,11 @@ class RegistrationFormType extends AbstractType
     {
         $builder
 			->add('name', TextType::class, [
-				"label" => "Prénom"
+				"label" => "Username"
 			])
             ->add('email', EmailType::class)
             ->add('plainPassword', PasswordType::class, [
-				'label' => "Mot de passe",
+				'label' => "Password",
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [

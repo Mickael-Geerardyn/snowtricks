@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
+use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
@@ -13,14 +15,20 @@ class Image
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     private ?string $path = null;
 
-    #[ORM\Column]
-    private ?int $figure_id = null;
+    #[ORM\ManyToOne(inversedBy: 'images')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Figure $figure = null;
 
-    #[ORM\Column]
-    private ?int $user_id = null;
+    #[ORM\Column (type: Types::STRING,length: 50)]
+    private string|DateTimeImmutable $created_at;
+
+	public function __construct()
+	{
+		$this->created_at = new DateTimeImmutable();
+	}
 
     public function getId(): ?int
     {
@@ -39,26 +47,26 @@ class Image
         return $this;
     }
 
-    public function getFigureId(): ?int
+    public function getFigure(): ?Figure
     {
-        return $this->figure_id;
+        return $this->figure;
     }
 
-    public function setFigureId(int $figure_id): self
+    public function setFigure(?Figure $figure): self
     {
-        $this->figure_id = $figure_id;
+        $this->figure = $figure;
 
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getCreatedAt(): ?string
     {
-        return $this->user_id;
+        return $this->created_at;
     }
 
-    public function setUserId(int $user_id): self
+    public function setCreatedAt(): self
     {
-        $this->user_id = $user_id;
+        $this->created_at = $this->created_at->format("d-m-Y");
 
         return $this;
     }
