@@ -11,6 +11,8 @@ use App\Entity\Video;
 use App\Repository\GroupeRepository;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
@@ -24,9 +26,15 @@ class AppFixtures extends Fixture
 			["email" => "freddy.g@gmail.com", "name" => "Freddy", "password" => "password"]
 		];
 
-	private Groupe $groupe;
+	private array $objectsGroupeArray;
+
 	private array $groupeTypes =
 		["grabs", "rotations", "flips", "rotations désaxées", "slides", "one foot tricks", "Old school"];
+
+	public function __construct()
+	{
+		$this->objectsGroupeArray = array();
+	}
 
     public function load(ObjectManager $manager): void
     {
@@ -39,18 +47,19 @@ class AppFixtures extends Fixture
 
 	public function loadFigure(ObjectManager $manager): void
 	{
-		$groupeRepository = $manager->getRepository(Groupe::class);
-		$allGroupes = $groupeRepository->findOneBy(["name" => "flips"]);
-		dump($allGroupes);
+		$arrayKeys = count($this->objectsGroupeArray) -1;
 
 		for ($i = 0; $i < 10; $i++)
 		{
+
+			$selectedGroupeObject = $this->objectsGroupeArray[mt_rand(0, $arrayKeys)];
+
 			$this->figure = new Figure();
 
 			$this->figure->setName("Nom de la figure numéro ${i}");
 			$this->figure->setDescription("Description de la figure numéro ${i}");
 			$this->figure->setCreatedAt();
-			$this->figure->setGroupe($this->groupe);
+			$this->figure->setGroupe($selectedGroupeObject);
 
 			self::loadUser($manager);
 			self::loadMessages($manager);
@@ -104,12 +113,12 @@ class AppFixtures extends Fixture
 	{
 		foreach($this->groupeTypes as $type)
 		{
-			$this->groupe = new Groupe();
-			$this->groupe->setName($type);
-			$this->groupe->setCreatedAt();
+			$groupe = new Groupe();
+			$groupe->setName($type);
+			$groupe->setCreatedAt();
+			$this->objectsGroupeArray[] = $groupe;
 
-			dump($this->groupe);
-			$manager->persist($this->groupe);
+			$manager->persist($groupe);
 		}
 	}
 }
