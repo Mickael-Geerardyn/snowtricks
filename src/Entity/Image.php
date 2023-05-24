@@ -25,10 +25,14 @@ class Image
     #[ORM\Column (type: Types::STRING,length: 50)]
     private string|DateTimeImmutable $created_at;
 
+    #[ORM\ManyToOne(inversedBy: 'images')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
 	public function __construct()
-	{
-		$this->created_at = new DateTimeImmutable();
-	}
+         	{
+         		$this->created_at = new DateTimeImmutable();
+         	}
 
     public function getId(): ?int
     {
@@ -67,6 +71,18 @@ class Image
     public function setCreatedAt(): self
     {
         $this->created_at = $this->created_at->format("d-m-Y");
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

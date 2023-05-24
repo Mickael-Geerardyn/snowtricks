@@ -7,7 +7,13 @@
     <list default="true" id="d076bad1-f422-4129-897a-f99ac971f3a2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/c961e2a5-aaf1-4c42-a1c0-baa6aadf16a8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c961e2a5-aaf1-4c42-a1c0-baa6aadf16a8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20230522181428.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20230522190401.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20230522194534.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/HomeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Image.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Image.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -272,7 +278,7 @@
       <workItem from="1684356836664" duration="12326000" />
       <workItem from="1684410245045" duration="3333000" />
       <workItem from="1684696624476" duration="41636000" />
-      <workItem from="1684879215035" duration="6696000" />
+      <workItem from="1684879215035" duration="10024000" />
     </task>
     <servers />
   </component>

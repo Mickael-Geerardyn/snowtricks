@@ -36,16 +36,20 @@ class User implements UserInterface
     private bool $isVerified = false;
 
 	#[ORM\OneToMany(mappedBy: 'user', targetEntity: Figure::class)]
-	private Collection $figures;
+               	private Collection $figures;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Image::class, orphanRemoval: true)]
+    private Collection $images;
 
     public function __construct()
     {
 		$this->figures = new ArrayCollection();
         $this->messages = new ArrayCollection();
 		$this->created_at = new DateTimeImmutable();
+  $this->image = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,19 +106,19 @@ class User implements UserInterface
     }
 
 	public function getRoles(): array
-                                                	{
-                                                		// TODO: Implement getRoles() method.
-                                                	}
+                                                               	{
+                                                               		// TODO: Implement getRoles() method.
+                                                               	}
 
 	public function eraseCredentials()
-                                                	{
-                                                		// TODO: Implement eraseCredentials() method.
-                                                	}
+                                                               	{
+                                                               		// TODO: Implement eraseCredentials() method.
+                                                               	}
 
 	public function getUserIdentifier(): string
-                                                	{
-                                                		// TODO: Implement getUserIdentifier() method.
-                                                	}
+                                                               	{
+                                                               		// TODO: Implement getUserIdentifier() method.
+                                                               	}
 
     public function isVerified(): ?bool
     {
@@ -162,20 +166,20 @@ class User implements UserInterface
 	 * @return Collection<int, Figure>
 	 */
 	public function getFigures(): Collection
-         	{
-         		return $this->figures;
-         	}
+                        	{
+                        		return $this->figures;
+                        	}
 
 	public function addFigures (Figure $figures): self
-	{
-		if (!$this->figures->contains($figures))
-		{
-			$this->figures->add($figures);
-			$figures->setUser($this);
-		}
-         
-		return $this;
-	}
+               	{
+               		if (!$this->figures->contains($figures))
+               		{
+               			$this->figures->add($figures);
+               			$figures->setUser($this);
+               		}
+                        
+               		return $this;
+               	}
 
     public function addFigure(Figure $figure): self
     {
@@ -193,6 +197,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($figure->getUser() === $this) {
                 $figure->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImage(): Collection
+    {
+        return $this->image;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->image->contains($image)) {
+            $this->image->add($image);
+            $image->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->image->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getUser() === $this) {
+                $image->setUser(null);
             }
         }
 

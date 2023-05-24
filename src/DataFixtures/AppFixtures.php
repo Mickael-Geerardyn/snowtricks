@@ -25,6 +25,7 @@ class AppFixtures extends Fixture
 			["email" => "kelly.l@gmail.com", "name" => "Kelly", "password" => "password"],
 			["email" => "freddy.g@gmail.com", "name" => "Freddy", "password" => "password"]
 		];
+	private array $objectUsersArray;
 
 	private array $objectsGroupeArray;
 
@@ -33,80 +34,35 @@ class AppFixtures extends Fixture
 
 	public function __construct()
 	{
+		$this->objectUsersArray = array();
 		$this->objectsGroupeArray = array();
 	}
 
     public function load(ObjectManager $manager): void
     {
 
+		self::loadUser($manager);
 		self::loadGroupe($manager);
 		self::loadFigure($manager);
 
         $manager->flush();
     }
 
-	public function loadFigure(ObjectManager $manager): void
-	{
-		$arrayKeys = count($this->objectsGroupeArray) -1;
-
-		for ($i = 0; $i < 10; $i++)
-		{
-
-			$selectedGroupeObject = $this->objectsGroupeArray[mt_rand(0, $arrayKeys)];
-
-			$this->figure = new Figure();
-
-			$this->figure->setName("Nom de la figure numéro ${i}");
-			$this->figure->setDescription("Description de la figure numéro ${i}");
-			$this->figure->setCreatedAt();
-			$this->figure->setGroupe($selectedGroupeObject);
-
-			self::loadUser($manager);
-			self::loadMessages($manager);
-			self::loadImage($i, $manager);
-			$manager->persist($this->figure);
-		}
-	}
-
 	public function loadUser(ObjectManager $manager): void
 	{
-		$this->user = new User();
-		$this->user->setName($this->users[array_rand($this->users)]["name"]);
-		$this->user->setEmail($this->users[array_rand($this->users)]["email"]);
-		$this->user->setPassword($this->users[array_rand($this->users)]["password"]);
-		$this->user->setCreatedAt();
-		$this->user->setIsVerified();
-
-		$this->figure->setUser($this->user);
-
-		$manager->persist($this->user);
-	}
-
-	public function loadMessages(ObjectManager $manager): void
-	{
-		$maxNumbers = mt_rand(1, 10);
-
-		for ($i = 0; $i < $maxNumbers; $i++)
+		foreach($this->users as $user)
 		{
-			$message = new Message();
+			$this->user = new User();
+			$this->user->setName($user["name"]);
+			$this->user->setEmail($user["email"]);
+			$this->user->setPassword($user["password"]);
+			$this->user->setCreatedAt();
+			$this->user->setIsVerified(true);
 
-			$message->setContent("Contenu du message numéro ${i}");
-			$message->setCreatedAt();
-			$message->setFigure($this->figure);
-			$message->setUser($this->user);
+			$this->objectUsersArray[] = $this->user;
 
-			$manager->persist($message);
+			$manager->persist($this->user);
 		}
-	}
-
-	public function loadImage(int $i, ObjectManager $manager): void
-	{
-		$image = new Image();
-		$image->setPath("picture-${i}.jpg");
-		$image->setCreatedAt();
-		$image->setFigure($this->figure);
-
-		$manager->persist($image);
 	}
 
 	public function loadGroupe(ObjectManager $manager): void
@@ -120,5 +76,59 @@ class AppFixtures extends Fixture
 
 			$manager->persist($groupe);
 		}
+	}
+
+	public function loadFigure(ObjectManager $manager): void
+	{
+		$lengthUserArray = count($this->objectUsersArray) -1;
+		$lengthGroupeArray = count($this->objectsGroupeArray) -1;
+
+		for ($i = 0; $i < 10; $i++)
+		{
+
+			$selectedUserObject = $this->objectUsersArray[mt_rand(0, $lengthUserArray)];
+			$selectedGroupeObject = $this->objectsGroupeArray[mt_rand(0, $lengthGroupeArray)];
+
+			$this->figure = new Figure();
+
+			$this->figure->setName("Nom de la figure numéro ${i}");
+			$this->figure->setDescription("Description de la figure numéro ${i}");
+			$this->figure->setCreatedAt();
+			$this->figure->setGroupe($selectedGroupeObject);
+			$this->figure->setUser($selectedUserObject);
+
+			self::loadMessages($manager, $selectedUserObject);
+			self::loadImage($i, $manager, $selectedUserObject);
+
+			$manager->persist($this->figure);
+		}
+	}
+
+	public function loadMessages(ObjectManager $manager, $selectedUserObject): void
+	{
+		$maxNumbers = mt_rand(1, 10);
+
+		for ($i = 0; $i < $maxNumbers; $i++)
+		{
+			$message = new Message();
+
+			$message->setContent("Contenu du message numéro ${i}");
+			$message->setCreatedAt();
+			$message->setFigure($this->figure);
+			$message->setUser($selectedUserObject);
+
+			$manager->persist($message);
+		}
+	}
+
+	public function loadImage(int $i, ObjectManager $manager, $selectedUserObject): void
+	{
+		$image = new Image();
+		$image->setPath("picture-${i}.jpg");
+		$image->setCreatedAt();
+		$image->setFigure($this->figure);
+		$image->setUser($selectedUserObject);
+
+		$manager->persist($image);
 	}
 }
