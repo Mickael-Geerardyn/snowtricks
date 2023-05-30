@@ -9,6 +9,7 @@ use App\Entity\Message;
 use App\Entity\User;
 use App\Entity\Video;
 use App\Repository\GroupeRepository;
+use App\Service\SluggerService;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,7 +19,6 @@ use Doctrine\Persistence\ObjectManager;
 class AppFixtures extends Fixture
 {
 	private Figure $figure;
-	private User $user;
 	private array $users =
 		[
 			["email" => "contact@mickael-geerardyn.com", "name" => "Mickaël", "password" => "password"],
@@ -31,11 +31,13 @@ class AppFixtures extends Fixture
 
 	private array $groupeTypes =
 		["grabs", "rotations", "flips", "rotations désaxées", "slides", "one foot tricks", "Old school"];
+	private SluggerService $sluggerService;
 
-	public function __construct()
+	public function __construct(SluggerService $sluggerService)
 	{
 		$this->objectUsersArray = array();
 		$this->objectsGroupeArray = array();
+		$this->sluggerService = $sluggerService;
 	}
 
     public function load(ObjectManager $manager): void
@@ -52,16 +54,16 @@ class AppFixtures extends Fixture
 	{
 		foreach($this->users as $user)
 		{
-			$this->user = new User();
-			$this->user->setName($user["name"]);
-			$this->user->setEmail($user["email"]);
-			$this->user->setPassword($user["password"]);
-			$this->user->setCreatedAt();
-			$this->user->setIsVerified(true);
+			$user1 = new User();
+			$user1->setName($user["name"]);
+			$user1->setEmail($user["email"]);
+			$user1->setPassword($user["password"]);
+			$user1->setCreatedAt();
+			$user1->setIsVerified(true);
 
-			$this->objectUsersArray[] = $this->user;
+			$this->objectUsersArray[] = $user1;
 
-			$manager->persist($this->user);
+			$manager->persist($user1);
 		}
 	}
 
@@ -96,6 +98,7 @@ class AppFixtures extends Fixture
 			$this->figure->setCreatedAt();
 			$this->figure->setGroupe($selectedGroupeObject);
 			$this->figure->setUser($selectedUserObject);
+			$this->figure->setSlug($this->sluggerService->makeSlug($this->figure->getName()));
 
 			self::loadMessages($manager, $selectedUserObject);
 			self::loadImage($i, $manager, $selectedUserObject);

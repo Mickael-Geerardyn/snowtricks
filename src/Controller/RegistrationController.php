@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,33 +25,39 @@ class RegistrationController extends AbstractController
 	 *
 	 * @return Response
 	 */
-    #[Route('/register', name: 'app_register')]
+    #[Route('/sign-up', name: 'sign_up_page', methods: ['GET','POST'])]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-		$user = new User();
-		$form = $this->createForm(RegistrationFormType::class, $user);
+		try
+		{
+			$user = new User();
+			$form = $this->createForm(RegistrationFormType::class, $user);
 
-		$form->handleRequest($request);
+			$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			$user->setPassword(
-				$userPasswordHasher->hashPassword(
-					$user,
-					$form->get('plainPassword')->getData()
-				),
-			);
-			$user->setCreatedAt(new \DateTimeImmutable());
+			if ($form->isSubmitted() && $form->isValid())
+			{
 
-			$entityManager->persist($user);
-			$entityManager->flush();
+				$user->setPassword(
+					$userPasswordHasher->hashPassword(
+						$user,
+						$form->get('plainPassword')->getData()
+					),
+				);
 
-			$this->addFlash("success","Votre compte a bien été créé. Vous allez recevoir un email de confirmation, cliquez sur le lien pour confirmer votre compte");
+				$this->redirectToRoute('home');
+			};
 
-			$this->redirectToRoute('home');
-		};
+			return $this->render("registration/sign-up.html.twig", [
+				"registrationForm" => $form->createView(),
+			]);
 
-		return $this->render("registration/register.html.twig",[
-			"registrationForm" => $form->createView(),
-		]);
+		} catch(Exception $exception)
+		{
+			return $this->render("home/homepage.html.twig", [
+
+				"error" => $exception->getMessage()
+			]);
+		}
     }
 }

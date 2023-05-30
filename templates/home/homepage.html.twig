@@ -3,11 +3,10 @@
 {% block body %}
     <div class="container-fluid px-0">
         <img src="{{ asset('images/16908.jpg') }}" class="img-fluid
-        mx-xl-auto d-block object-fit-contain"
-             alt="...">
+        mx-xl-auto d-block object-fit-contain" alt="...">
     </div>
     <div class="container-fluid mt-lg-4 mt-2 px-1 px-lg-4">
-        <div class="row row-cols-xl-5 row-cols-lg-3 row-cols-1 g-4">
+        <div class="row row-cols-xl-5 row-cols-lg-3 row-cols-1 g-4 align-content-around">
             {% if (figuresObjectsArray is defined and figuresObjectsArray is not empty) %}
             {% for figure in figuresObjectsArray %}
             <div class="col">
@@ -16,9 +15,12 @@
                      }}"
                          class="card-img-top h-75 object-fit-cover" alt="...">
                     <div class="card-body row align-items-center">
-                        <p
-                                class="card-text col-8 col-lg-7 mb-0 fs-5"><a
-                                    href="">{{ figure.getName() }}</a></p>
+                        <p class="card-text col-8 col-lg-7 mb-0">
+                            <a href="{{ path("app_figure", {slug: figure
+                            .getSlug()})
+                            }}">{{
+                                figure.getName()
+                                }}</a></p>
                         <a href="" class="col link-dark h-50 w-50"><svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="currentColor" class="bi

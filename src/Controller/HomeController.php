@@ -28,7 +28,7 @@ class HomeController extends AbstractController
 		} catch (Exception $exception)
 		{
 			return $this->render("home/homepage.html.twig", [
-				'danger' => $exception->getMessage(),
+				'error' => $exception->getMessage(),
 			]);
 		}
 
