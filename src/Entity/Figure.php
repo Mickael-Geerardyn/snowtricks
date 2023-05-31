@@ -24,15 +24,15 @@ class Figure
     private ?string $description = null;
 
 	#[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'figures')]
-         	#[ORM\JoinColumn(nullable: false)]
-         	private ?User $user = null;
+                  	#[ORM\JoinColumn(nullable: false)]
+                  	private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'figures')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Groupe $groupe = null;
 
 	#[ORM\OneToMany(mappedBy: 'figure', targetEntity: Message::class)]
-         	private Collection $messages;
+                  	private Collection $messages;
 
     #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Video::class, orphanRemoval: true)]
     private Collection $videos;
@@ -46,13 +46,16 @@ class Figure
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $updated_at = null;
+
 	public function __construct()
-                  	{
-                  		$this->messages = new ArrayCollection();
-                  		$this->videos = new ArrayCollection();
-                  		$this->images = new ArrayCollection();
-         				 $this->created_at = new DateTimeImmutable();
-                  	}
+                           	{
+                           		$this->messages = new ArrayCollection();
+                           		$this->videos = new ArrayCollection();
+                           		$this->images = new ArrayCollection();
+                  				 $this->created_at = new DateTimeImmutable();
+                           	}
 
     public function getId(): ?int
     {
@@ -112,31 +115,31 @@ class Figure
 	 * @return Collection<int, Message>
 	 */
 	public function getMessages(): Collection
-                  	{
-                  		return $this->messages;
-                  	}
+                           	{
+                           		return $this->messages;
+                           	}
 
 	public function addMessage(Message $message): self
-                  	{
-                  		if (!$this->messages->contains($message)) {
-                  			$this->messages->add($message);
-                  			$message->setFigure($this);
-                  		}
-                  
-                  		return $this;
-                  	}
+                           	{
+                           		if (!$this->messages->contains($message)) {
+                           			$this->messages->add($message);
+                           			$message->setFigure($this);
+                           		}
+                           
+                           		return $this;
+                           	}
 
 	public function removeMessage(Message $message): self
-                  	{
-                  		if ($this->messages->removeElement($message)) {
-                  			// set the owning side to null (unless already changed)
-                  			if ($message->getUser() === $this) {
-                  				$message->setFigure(null);
-                  			}
-                  		}
-                  
-                  		return $this;
-                  	}
+                           	{
+                           		if ($this->messages->removeElement($message)) {
+                           			// set the owning side to null (unless already changed)
+                           			if ($message->getUser() === $this) {
+                           				$message->setFigure(null);
+                           			}
+                           		}
+                           
+                           		return $this;
+                           	}
 
     /**
      * @return Collection<int, Video>
@@ -218,6 +221,18 @@ class Figure
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?string
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?string $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
