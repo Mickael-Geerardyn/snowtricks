@@ -10,17 +10,25 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class User implements UserInterface
+#[UniqueEntity(
+	fields: 'email',
+	message: "Un compte est déjà rattaché à cette adresse email",
+)]
+#[UniqueEntity(
+	fields: 'name',
+	message: "Ce nom est déjà utilisé")]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(type: Types::STRING, length: 50, nullable: false)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
@@ -29,14 +37,14 @@ class User implements UserInterface
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::STRING, length: 50, nullable: false)]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE ,length: 50, nullable: false)]
     private string|DateTimeImmutable $created_at;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
     private bool $isVerified = false;
 
 	#[ORM\OneToMany(mappedBy: 'user', targetEntity: Figure::class)]
-               	private Collection $figures;
+	private Collection $figures;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
@@ -48,8 +56,7 @@ class User implements UserInterface
     {
 		$this->figures = new ArrayCollection();
         $this->messages = new ArrayCollection();
-		$this->created_at = new DateTimeImmutable();
-  $this->image = new ArrayCollection();
+  		$this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,33 +100,34 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?string
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(): self
+    public function setCreatedAt($dateTime): self
     {
-        $this->created_at = $this->created_at->format("d-m-Y");
+        $this->created_at = $dateTime;
 
         return $this;
     }
 
 	public function getRoles(): array
-                                                               	{
-                                                               		// TODO: Implement getRoles() method.
-                                                               	}
+	{
+		$roles[] = 'ROLE_USER';
+
+		return $roles;
+	}
 
 	public function eraseCredentials()
-                                                               	{
-                                                               		// TODO: Implement eraseCredentials() method.
-                                                               	}
+	{
+		// TODO: Implement eraseCredentials() method.
+	}
 
 	public function getUserIdentifier(): string
-                                                               	{
-                                                               		// TODO: Implement getUserIdentifier() method.
-                                                               	}
-
+	{
+		return (string) $this->name;
+	}
     public function isVerified(): ?bool
     {
         return $this->isVerified;
@@ -166,20 +174,20 @@ class User implements UserInterface
 	 * @return Collection<int, Figure>
 	 */
 	public function getFigures(): Collection
-                        	{
-                        		return $this->figures;
-                        	}
+	{
+		return $this->figures;
+	}
 
 	public function addFigures (Figure $figures): self
-               	{
-               		if (!$this->figures->contains($figures))
-               		{
-               			$this->figures->add($figures);
-               			$figures->setUser($this);
-               		}
-                        
-               		return $this;
-               	}
+	{
+		if (!$this->figures->contains($figures))
+		{
+			$this->figures->add($figures);
+			$figures->setUser($this);
+		}
+
+		return $this;
+	}
 
     public function addFigure(Figure $figure): self
     {
@@ -208,13 +216,13 @@ class User implements UserInterface
      */
     public function getImage(): Collection
     {
-        return $this->image;
+        return $this->images;
     }
 
     public function addImage(Image $image): self
     {
-        if (!$this->image->contains($image)) {
-            $this->image->add($image);
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
             $image->setUser($this);
         }
 
@@ -223,7 +231,7 @@ class User implements UserInterface
 
     public function removeImage(Image $image): self
     {
-        if ($this->image->removeElement($image)) {
+        if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
             if ($image->getUser() === $this) {
                 $image->setUser(null);

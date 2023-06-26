@@ -13,12 +13,7 @@
 <body>
 <main class="container-fluid px-0">
 {% include "navbar.html.twig" %}
-    {% if (success is defined or error is defined) %}
-        <div class="alert alert-{{ (success is defined) ? "success" : "danger"
-        }}" role="alert">
-            {{ (success is defined) ? success : error }}
-        </div>
-    {% endif %}
+
 {% block body %}{% endblock %}
 
 {% include "footer.html.twig" %}

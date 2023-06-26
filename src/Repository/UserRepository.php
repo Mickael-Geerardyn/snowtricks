@@ -38,19 +38,4 @@ class UserRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-	/**
-	 * Return true the user already exist, false otherwise
-	 *
-	 * @param $userEmail
-	 *
-	 * @return bool
-	 */
-   public function checkIfUserAlreadyExist($userEmail): bool
-   {
-        return $this->getEntityManager()->createQuery(
-			`SELECT email FROM user WHERE user.email = '${userEmail}' AND
-EXISTS (SELECT email FROM user WHERE user.email = '${userEmail}');`
-		)->getResult();
-    }
 }

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MailerController!{% endblock %}
+
+{% block body %}
+    <h1 style="font-size: 1.5em;" >Merci {{ userName }} de nous avoir
+        rejoins sur Snowtricks!</h1>
+
+    <p>Pour confirmer votre inscription et activer votre compte, veuillez
+        <a href="{{ url('home', {'token_mailer_validator': csrf_token
+            ('token_mailer_validator')})
+        }}">cliquer sur ce lien</a></p>
+
+    <p>L'équipe Snowtricks</p>
+{% endblock %}

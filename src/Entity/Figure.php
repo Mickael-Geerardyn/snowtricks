@@ -40,7 +40,7 @@ class Figure
     #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Image::class, orphanRemoval: true)]
     private Collection $images;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(type: TYPES::STRING,length: 50)]
     private string|DateTimeImmutable $created_at;
 
     #[ORM\Column(length: 255)]

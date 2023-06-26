@@ -15,6 +15,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -33,11 +34,14 @@ class AppFixtures extends Fixture
 		["grabs", "rotations", "flips", "rotations désaxées", "slides", "one foot tricks", "Old school"];
 	private SluggerService $sluggerService;
 
-	public function __construct(SluggerService $sluggerService)
+	private UserPasswordHasherInterface $userPasswordHasher;
+
+	public function __construct(SluggerService $sluggerService, UserPasswordHasherInterface $userPasswordHasher)
 	{
 		$this->objectUsersArray = array();
 		$this->objectsGroupeArray = array();
 		$this->sluggerService = $sluggerService;
+		$this->userPasswordHasher = $userPasswordHasher;
 	}
 
     public function load(ObjectManager $manager): void
@@ -57,8 +61,8 @@ class AppFixtures extends Fixture
 			$user1 = new User();
 			$user1->setName($user["name"]);
 			$user1->setEmail($user["email"]);
-			$user1->setPassword($user["password"]);
-			$user1->setCreatedAt();
+			$user1->setPassword($this->userPasswordHasher->hashPassword($user1, $user["password"]));
+			$user1->setCreatedAt(new DateTimeImmutable());
 			$user1->setIsVerified(true);
 
 			$this->objectUsersArray[] = $user1;

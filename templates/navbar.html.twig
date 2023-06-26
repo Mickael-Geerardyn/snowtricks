@@ -15,21 +15,33 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page"
-                       href="{{ path("home") }}">Home</a>
+                       href="{{ path("home") }}">Accueil</a>
+                </li>
+                {% if (app.user is empty) %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("app_login") }}">Se
+                        connecter</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Tricks</a>
+                    <a class="nav-link" href="{{ path("sign_up_page")
+                    }}">S'enregistrer</a>
                 </li>
+                {% endif %}
+                {% if (app.user is not empty) %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('sign_in_page') }}">Sign in</a>
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se
+                        déconnecter</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path("sign_up_page") }}">Sign up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">Logout</a>
-                </li>
+                {% endif %}
             </ul>
         </div>
     </div>
 </nav>
+{% if (success is defined and success is not empty) or (error is defined
+    and error is not empty) %}
+    <div class="alert alert-{{ (success is defined and success is not empty) ?
+    "success" : "danger"
+    }}" role="alert">
+        {{ (success is defined and success is not empty) ? success : error }}
+    </div>
+{% endif %}
