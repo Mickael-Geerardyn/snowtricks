@@ -38,4 +38,22 @@ class UserRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+	public function userAccountValidation(User $entity): void
+	{
+		$entity->setIsVerified(true);
+
+		$this->getEntityManager()->persist($entity);
+
+		$this->removeTokenValidator($entity);
+	}
+
+	private function removeTokenValidator(User $entity): void
+	{
+		$entity->setTokenValidator(null);
+
+		$this->getEntityManager()->persist($entity);
+
+		$this->getEntityManager()->flush();
+	}
 }

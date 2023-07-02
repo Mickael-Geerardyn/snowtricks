@@ -5,10 +5,6 @@
 {% block body %}
 <div class="container mt-4 mb-5">
 <form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
     {% if app.user %}
         <div class="mb-3">
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
@@ -31,20 +27,10 @@
            value="{{ csrf_token('authenticate') }}"
     >
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
-
     <button class="btn btn-lg btn-primary mt-4" type="submit">
         Se connecter
     </button>
+        <p class="mt-4"><a href="{{ path('app_password_forgot_page') }}">Mot de passe oublié</a></p>
     </div>
 </form>
 </div>

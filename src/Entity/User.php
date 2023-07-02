@@ -44,13 +44,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
 	#[ORM\OneToMany(mappedBy: 'user', targetEntity: Figure::class)]
-	private Collection $figures;
+         	private Collection $figures;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Image::class, orphanRemoval: true)]
     private Collection $images;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tokenValidator = null;
 
     public function __construct()
     {
@@ -113,21 +116,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 	public function getRoles(): array
-	{
-		$roles[] = 'ROLE_USER';
-
-		return $roles;
-	}
+         	{
+         		$roles[] = 'ROLE_USER';
+         
+         		return $roles;
+         	}
 
 	public function eraseCredentials()
-	{
-		// TODO: Implement eraseCredentials() method.
-	}
+         	{
+         		// TODO: Implement eraseCredentials() method.
+         	}
 
 	public function getUserIdentifier(): string
-	{
-		return (string) $this->name;
-	}
+         	{
+         		return (string) $this->name;
+         	}
     public function isVerified(): ?bool
     {
         return $this->isVerified;
@@ -174,20 +177,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 	 * @return Collection<int, Figure>
 	 */
 	public function getFigures(): Collection
-	{
-		return $this->figures;
-	}
+         	{
+         		return $this->figures;
+         	}
 
 	public function addFigures (Figure $figures): self
-	{
-		if (!$this->figures->contains($figures))
-		{
-			$this->figures->add($figures);
-			$figures->setUser($this);
-		}
-
-		return $this;
-	}
+         	{
+         		if (!$this->figures->contains($figures))
+         		{
+         			$this->figures->add($figures);
+         			$figures->setUser($this);
+         		}
+         
+         		return $this;
+         	}
 
     public function addFigure(Figure $figure): self
     {
@@ -237,6 +240,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $image->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTokenValidator(): ?string
+    {
+        return $this->tokenValidator;
+    }
+
+    public function setTokenValidator(?string $tokenValidator): static
+    {
+        $this->tokenValidator = $tokenValidator;
 
         return $this;
     }

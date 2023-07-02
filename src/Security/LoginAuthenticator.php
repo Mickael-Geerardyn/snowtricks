@@ -52,13 +52,14 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
 		if (!$this->security->getUser()->IsVerified())
 		{
-			return new RedirectResponse($this->urlGenerator->generate('app_logout', [
-				'error' => "Veuillez confirmer votre inscription à l'aide du lien envoyé par email lors de l'inscription"
+			return new RedirectResponse($this->urlGenerator->generate('home', [
+				'error' => "Veuillez valider votre compte à l'aide du lien envoyé par email lors de l'inscription"
 			]));
 		}
 
         // For example:
         return new RedirectResponse($this->urlGenerator->generate('home'));
+
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

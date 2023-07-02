@@ -1176,7 +1176,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="313" parent="301" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>510</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1244,7 +1244,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="327" parent="302" name="id">
-      <AutoIncrement>21</AutoIncrement>
+      <AutoIncrement>357</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1270,7 +1270,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="332" parent="303" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>510</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1324,7 +1324,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="343" parent="304" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>2710</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1378,7 +1378,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="354" parent="305" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>93</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1438,7 +1438,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="366" parent="306" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>206</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1469,52 +1469,56 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <index id="372" parent="306" name="PRIMARY">
+    <column id="372" parent="306" name="token_validator">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <index id="373" parent="306" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="373" parent="306" name="PRIMARY">
+    <key id="374" parent="306" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="374" parent="307" name="id">
+    <column id="375" parent="307" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="375" parent="307" name="figure_id">
+    <column id="376" parent="307" name="figure_id">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="376" parent="307" name="path">
+    <column id="377" parent="307" name="path">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="377" parent="307" name="created_at">
+    <column id="378" parent="307" name="created_at">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="378" parent="307" name="FK_7CC7DA2C5C011B5">
+    <foreign-key id="379" parent="307" name="FK_7CC7DA2C5C011B5">
       <ColNames>figure_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>figure</RefTableName>
     </foreign-key>
-    <index id="379" parent="307" name="PRIMARY">
+    <index id="380" parent="307" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="380" parent="307" name="IDX_7CC7DA2C5C011B5">
+    <index id="381" parent="307" name="IDX_7CC7DA2C5C011B5">
       <ColNames>figure_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="381" parent="307" name="PRIMARY">
+    <key id="382" parent="307" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

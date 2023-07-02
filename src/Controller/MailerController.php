@@ -14,29 +14,51 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 
 class MailerController extends AbstractController
 {
-	private Security $security;
 	private MailerInterface $mailer;
 
-	public function __construct(Security $security, MailerInterface $mailer)
+	public function __construct(MailerInterface $mailer)
 	{
-		$this->security = $security;
 		$this->mailer = $mailer;
 	}
+
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    #[Route('/registration-mailer', name: 'app_registration_mailer')]
+    public function sendRegistrationMail(string $userEmail, string $userName, string $token): void
+    {
+            $email = (new TemplatedEmail())
+                ->from('noreply@snowtricks.com')
+                ->to($userEmail)
+                ->subject('Validez votre inscription!')
+                ->htmlTemplate('mailer/user-registration.html.twig')
+                ->context([
+                    'userName' => $userName,
+                    'userEmail' => $userEmail,
+                    'token' => $token
+                ]);
+
+            $this->mailer->send($email);
+    }
 
 	/**
 	 * @throws TransportExceptionInterface
 	 */
-	#[Route('/mailer', name: 'app_mailer')]
-    public function sendMail(string $userEmail, string $userName): void
-    {
+	#[Route('/forgot-password-mailer', name: 'app_forgot_password_mailer')]
+	public function sendForgotPasswordMail(string $userEmail, string $userName, string $token): void
+	{
 		$email = (new TemplatedEmail())
+			->from('noreply@snowtricks.com')
 			->to($userEmail)
 			->subject('Validez votre inscription!')
-			->htmlTemplate('mailer/index.html.twig')
+			->htmlTemplate('mailer/forgot-password.html.twig')
 			->context([
-				'userName' => $userName,
+						  'userName' => $userName,
+						  'userEmail' => $userEmail,
+						  'token' => $token
 					  ]);
 
 		$this->mailer->send($email);
-    }
+	}
 }

@@ -4,15 +4,22 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
+use App\Security\CustomTokenGenerator;
 use App\Security\EmailVerifier;
+use App\Service\DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +36,15 @@ class RegistrationController extends AbstractController
 	 * @return Response
 	 */
     #[Route('/sign-up', name: 'sign_up_page', methods: ['GET','POST'])]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerController $mailerController): Response
+    public function register(
+        Request $request,
+        Session $session,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+        MailerController $mailerController,
+        DateTime $dateTime,
+		CustomTokenGenerator $customTokenGenerator
+    ): Response
     {
 		try
 		{
@@ -49,14 +64,16 @@ class RegistrationController extends AbstractController
 
 				$user->setCreatedAt(new DateTimeImmutable());
 
+				$validatorToken = $customTokenGenerator->getToken();
+
+				$user->setTokenValidator($validatorToken);
+
 				$entityManager->persist($user);
 				$entityManager->flush();
 
-				$mailerController->sendMail(userEmail: $user->getEmail(), userName: $user->getName());
+				$mailerController->sendRegistrationMail($user->getEmail(), $user->getName(), $validatorToken);
 
-				$this->addFlash("success","Pour confirmer votre inscription, veuillez cliquer sur le lien envoyé à l'adresse email renseignée");
-
-				return $this->redirectToRoute('home');
+				return $this->render('home/homepage.html.twig', ['success' => "Validez votre inscription à l'aide du courriel envoyé à l'adresse renseignée!"]);
 			};
 
 			return $this->render("registration/sign-up.html.twig", [
@@ -70,7 +87,32 @@ class RegistrationController extends AbstractController
 				"error" => $exception->getMessage()
 			]);
 		}
+    }
+
+    #[Route("/registration-confirmation?token={token}&email={userEmail}",
+		name: "app_registration_validation",
+		requirements: ['token' => ".+"],
+		defaults: ["userEmail" => "userEmail"] ,
+		methods: ['GET']
+	)]
+    public function registrationValidation(string $token, string $userEmail, UserRepository $userRepository)
+	{
+		$user = $userRepository->findOneBy([
+												"email" => $userEmail,
+											   "tokenValidator" => $token
+										   ]);
+
+		if (empty($user)) {
+			return $this->render("home/homepage.html.twig", [
+				"error" => "Une erreur est survenue, veuillez réessayer"
+			]);
+		}
+
+		$userRepository->userAccountValidation($user);
+
+		return $this->render("home/homepage.html.twig", [
+			"success" => "Votre compte est activé!"
+		]);
+
 	}
-
-
 }
