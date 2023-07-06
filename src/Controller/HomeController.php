@@ -24,11 +24,12 @@ class HomeController extends AbstractController
 			return $this->render('home/homepage.html.twig', [
 				'figuresObjectsArray' => $figureRepository->findAll(),
 			]);
+
 		} catch (Exception $exception)
 		{
-			return $this->render("home/homepage.html.twig", [
-				'error' => $exception->getMessage(),
-			]);
+			$this->addFlash("error", $exception->getMessage());
+
+			return $this->render("home/homepage.html.twig");
 		}
 
     }

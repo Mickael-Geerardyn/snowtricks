@@ -51,7 +51,7 @@ class MailerController extends AbstractController
 		$email = (new TemplatedEmail())
 			->from('noreply@snowtricks.com')
 			->to($userEmail)
-			->subject('Validez votre inscription!')
+			->subject('Mot de passe oublié')
 			->htmlTemplate('mailer/forgot-password.html.twig')
 			->context([
 						  'userName' => $userName,

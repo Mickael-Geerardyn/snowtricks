@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\String\AbstractUnicodeString;
 use Symfony\Component\String\Slugger\SluggerInterface;
 class SluggerService
 {
@@ -11,7 +12,7 @@ class SluggerService
 		$this->slugger = $sluggerInterface;
 	}
 
-	public function makeSlug(string $sluggerChain)
+	public function makeSlug(string $sluggerChain): AbstractUnicodeString
 	{
 		return $this->slugger->slug($sluggerChain);
 	}

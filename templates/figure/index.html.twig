@@ -7,7 +7,8 @@
         <div class="position-absolute top-0 end-0">
         <div class="row gx-5 border border-dark py-3 mt-4 me-4">
             <div class="col">
-            <a href="" class="link-dark"><svg
+            <a href="{{ path("app_figure_update", {slug: figure
+                .getSlug()}) }}" class="link-dark"><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="25" height="25"
                         fill="currentColor" class="bi
@@ -15,7 +16,9 @@
                                      16 16">
                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                 </svg></a></div>
-            <div class="col"><a href="" class="link-dark"><svg
+            <div class="col"><a href="{{ path("app_figure_delete", {slug: figure
+                    .getSlug()})
+                }}" class="link-dark"><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="25" height="25"
                         fill="currentColor" class="bi bi-trash
@@ -26,14 +29,24 @@
                 </svg></a></div>
         </div>
         </div>
-        <div class="container text-center position-relative">
-            <img src="{{ asset('images/' ~ figure.images[0].getPath()) }}" class="img-fluid
+
+        <div class="container text-center">
+            {% if figure.images is not empty %}
+                <div class="container-fluid">
+            <img src="{{ asset('images/' ~ figure.images[0].getPath()) }}"
+                 class="img-fluid
             mx-xl-auto d-block object-fit-contain opacity-50" alt="">
-            <h2 class="position-absolute top-50 start-50 translate-middle
+                    </div>
+            {% endif %}
+            <div class="container-fluid">
+            <h2 class="top-50 start-50 translate-middle
             fw-bolder text-uppercase">{{ figure.getName() }}</h2>
+            </div>
         </div>
 
-    <div class="container-fluid mt-lg-4 mt-2 px-1 px-lg-4">
+
+    <div class="container mt-lg-4 mt-2 px-1 px-lg-4">
+        {% if figure.images is not empty %}
         <div class="row row-cols-xl-5 row-cols-lg-3 row-cols-1 g-4 align-content-around">
             {% for image in figure.images %}
             <div class="col mt-5">
@@ -44,6 +57,7 @@
             </div>
             {% endfor %}
         </div>
+        {% endif %}
             <div class="text-center fs-5 mt-5">
                 <p>{{ figure.getDescription() }}</p>
             </div>
@@ -64,7 +78,8 @@
                 </div>
             {% if (figure.getUpdatedAt() is not empty) %}
             <p class="text-center border px-4 py-2
-                rounded">{{ figure.getUpdatedAt() }}</p>
+                rounded">Modifié le: {{ figure.getUpdatedAt()
+                }}</p>
             {% endif %}
             </div>
         </div>

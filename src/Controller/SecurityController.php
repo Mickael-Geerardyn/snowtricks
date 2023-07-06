@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\ForgotPasswordPageFormType;
 use App\Form\ResetPasswordPageFormType;
 use App\Repository\UserRepository;
 use App\Security\CustomTokenGenerator;
+use App\Service\CustomTokenValidatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +23,6 @@ class SecurityController extends AbstractController
 		CustomTokenGenerator $customTokenGenerator,
 		MailerController $mailerController,
 		UserRepository $userRepository,
-		EntityManagerInterface $entityManager,
 	): Response
     {
 		try {
@@ -38,24 +37,21 @@ class SecurityController extends AbstractController
 					'name' => $form->get("name")->getData(),
 												   ]);
 
-				if(!$user->isVerified() && !empty($user->getTokenValidator()))
+				if (!$user)
 				{
-					return $this->render("home/homepage.html.twig", [
-						'error' => "Veuillez valider votre compte à l'aide du lien envoyé lors de votre inscription avant de modifier votre mot de passe"
-					]);
+					$this->addFlash("error", "Cet utilisateur n'existe pas");
+
+					return $this->redirectToRoute("app_password_forgot_page");
 				}
 
-				$validatorToken = $customTokenGenerator->getToken();
-
-				$user->setTokenValidator($validatorToken);
-
-				$entityManager->persist($user);
-				$entityManager->flush();
+				$validatorToken = $customTokenGenerator->getToken($user->getEmail());
 
 				$mailerController->sendForgotPasswordMail($user->getEmail(), $user->getName(), $validatorToken);
 
-				return $this->render('home/homepage.html.twig', ['success' => "Suivez les instructions envoyées à l'adresse email rattachée au nom d'utilisateur renseigné"]);
-			};
+				$this->addFlash("success", "Suivez les instructions envoyées à l'adresse email rattachée au nom d'utilisateur renseigné");
+
+				return $this->redirectToRoute("home");
+			}
 
 			return $this->render("password/forgot-password.html.twig", [
 				"forgotPasswordPageForm" => $form->createView(),
@@ -63,9 +59,9 @@ class SecurityController extends AbstractController
 
 		}catch (Exception $exception){
 
-			return $this->render("home/homepage.html.twig", [
-				'error' => $exception->getMessage()
-			]);
+			$this->addFlash("error", $exception->getMessage());
+
+			return $this->redirectToRoute("home");
 		}
     }
 
@@ -74,27 +70,33 @@ class SecurityController extends AbstractController
 		requirements: ['token' => ".+"],
 		defaults: ["userEmail" => "userEmail"])]
 	public function modifyPasswordPage(
-		Request $request,
-		CustomTokenGenerator $customTokenGenerator,
-		MailerController $mailerController,
-		UserRepository $userRepository,
+		Request                     $request,
+		UserRepository              $userRepository,
 		UserPasswordHasherInterface $userPasswordHasher,
-		EntityManagerInterface $entityManager,
-		string $token,
-		string $userEmail
-	)
+		EntityManagerInterface      $entityManager,
+		CustomTokenValidatorService $CustomTokenValidatorService,
+		string                      $token,
+		string                      $userEmail
+	): Response
 	{
 		try {
 
+			if(!$CustomTokenValidatorService->validateCsrfToken($userEmail, $token))
+			{
+				$this->addFlash("error", "Une erreur est intervenue, veuillez réessayer");
+
+				return $this->redirectToRoute("home");
+			}
+
 			$user = $userRepository->findOneBy([
-				"email" => $userEmail,
-												   "tokenValidator" => $token
+												   "email" => $userEmail
 											   ]);
 
 			if (empty($user)) {
-				return $this->render("home/homepage.html.twig", [
-					"error" => "Une erreur est survenue, veuillez réessayer"
-				]);
+
+				$this->addFlash("error", "Une erreur est intervenue, veuillez réessayer");
+
+				return $this->redirectToRoute("home");
 			}
 
 			$form = $this->createForm(ResetPasswordPageFormType::class, $user);
@@ -105,9 +107,9 @@ class SecurityController extends AbstractController
 
 				if($form->get('password')->getData() !== $form->get('confirmationPassword')->getData())
 				{
-					return $this->render("home/homepage.html.twig", [
-						"error" => "Une erreur est survenue, veuillez réessayer"
-					]);
+					$this->addFlash("error", "La confirmation du mot de passe à échoué");
+
+					return $this->redirectToRoute("home");
 				}
 
 				$user->setPassword(
@@ -117,14 +119,12 @@ class SecurityController extends AbstractController
 					),
 				);
 
-				$user->setTokenValidator(null);
-
 				$entityManager->persist($user);
 				$entityManager->flush();
 
-				return $this->render("home/homepage.html.twig", [
-					"success" => "Votre mot de passe à bien été modifié"
-				]);
+				$this->addFlash("success", "Votre mot de passe à bien été mis à jour");
+
+				return $this->redirectToRoute("home");
 			}
 
 			return $this->render("password/reset-password.html.twig", [
@@ -133,9 +133,9 @@ class SecurityController extends AbstractController
 
 		}catch (Exception $exception){
 
-			return $this->render("home/homepage.html.twig", [
-				'error' => $exception->getMessage()
-			]);
+			$this->addFlash("error", "Une erreur est intervenue, veuillez réessayer");
+
+			return $this->redirectToRoute("home");
 		}
 	}
 }

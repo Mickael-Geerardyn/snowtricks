@@ -28,6 +28,10 @@
                 </li>
                 {% endif %}
                 {% if (app.user is not empty) %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_figure_create')
+                        }}">Ajouter un Trick</a>
+                    </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">Se
                         déconnecter</a>
@@ -37,11 +41,13 @@
         </div>
     </div>
 </nav>
-{% if (success is defined and success is not empty) or (error is defined
-    and error is not empty) %}
-    <div class="alert alert-{{ (success is defined and success is not empty) ?
-    "success" : "danger"
-    }}" role="alert">
-        {{ (success is defined and success is not empty) ? success : error }}
+{% if app.session.flashBag.has('success') %}
+    <div class="alert alert-success" role="alert">
+        {{ app.session.flashBag.get('success')[0] }}
+    </div>
+{% endif %}
+{% if app.session.flashBag.has('error') %}
+    <div class="alert alert-danger" role="alert">
+        {{ app.session.flashBag.get('error')[0] }}
     </div>
 {% endif %}

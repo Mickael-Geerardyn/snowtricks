@@ -6,6 +6,7 @@ use App\Controller\LoginController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -30,13 +31,12 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
+        $userName = $request->request->get('_username', '');
 
-        $email = $request->request->get('_username', '');
-
-        $request->getSession()->set(Security::LAST_USERNAME, $email);
+        $request->getSession()->set(Security::LAST_USERNAME, $userName);
 
         return new Passport(
-            new UserBadge($email),
+            new UserBadge($userName),
             new PasswordCredentials($request->request->get('_password', '')),
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
@@ -47,14 +47,16 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+
             return new RedirectResponse($targetPath);
         }
 
 		if (!$this->security->getUser()->IsVerified())
 		{
-			return new RedirectResponse($this->urlGenerator->generate('home', [
-				'error' => "Veuillez valider votre compte à l'aide du lien envoyé par email lors de l'inscription"
-			]));
+			$session = new Session();
+			$session->getFlashBag()->add("error", "Veuillez valider votre compte à l'aide du lien envoyé par email lors de l'inscription");
+
+			return new RedirectResponse($this->urlGenerator->generate('home'));
 		}
 
         // For example:

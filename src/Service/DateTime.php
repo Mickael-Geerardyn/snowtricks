@@ -20,6 +20,6 @@ class DateTime
 
     public function getDateTime(): string
     {
-        return $this->dateTimeImmutable->format("Y-m-d H-i-s");
+        return $this->dateTimeImmutable->format("d-m-Y");
     }
 }
