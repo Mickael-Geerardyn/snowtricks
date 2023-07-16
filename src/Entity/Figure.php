@@ -24,23 +24,23 @@ class Figure
     private ?string $description = null;
 
 	#[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'figures')]
-                  	#[ORM\JoinColumn(nullable: false)]
-                  	private ?User $user = null;
+                           	#[ORM\JoinColumn(nullable: false)]
+                           	private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'figures')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Groupe $groupe = null;
 
-	#[ORM\OneToMany(mappedBy: 'figure', targetEntity: Message::class)]
-                  	private Collection $messages;
+	#[ORM\OneToMany(mappedBy: 'figure', targetEntity: Message::class, cascade: ["persist"], orphanRemoval: true)]
+                           	private Collection $messages;
 
-    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Video::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Video::class, cascade: ["persist"], orphanRemoval: true)]
     private Collection $videos;
 
-    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Image::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Image::class, cascade: ["persist"], orphanRemoval: true)]
     private Collection $images;
 
-    #[ORM\Column(type: TYPES::STRING,length: 50)]
+    #[ORM\Column(type: TYPES::DATE_IMMUTABLE,length: 50)]
     private string|DateTimeImmutable $created_at;
 
     #[ORM\Column(length: 255)]
@@ -50,12 +50,12 @@ class Figure
     private ?string $updated_at = null;
 
 	public function __construct()
-                           	{
-                           		$this->messages = new ArrayCollection();
-                           		$this->videos = new ArrayCollection();
-                           		$this->images = new ArrayCollection();
-                  				 $this->created_at = new DateTimeImmutable();
-                           	}
+         	{
+         		$this->messages = new ArrayCollection();
+         		$this->videos = new ArrayCollection();
+         		$this->images = new ArrayCollection();
+         		$this->created_at = new DateTimeImmutable();
+         	}
 
     public function getId(): ?int
     {
@@ -115,31 +115,32 @@ class Figure
 	 * @return Collection<int, Message>
 	 */
 	public function getMessages(): Collection
-                           	{
-                           		return $this->messages;
-                           	}
+         	{
+         		return $this->messages;
+         	}
 
 	public function addMessage(Message $message): self
-                           	{
-                           		if (!$this->messages->contains($message)) {
-                           			$this->messages->add($message);
-                           			$message->setFigure($this);
-                           		}
-                           
-                           		return $this;
-                           	}
+         	{
+         		if (!$this->messages->contains($message)) {
+         
+         			$this->messages->add($message);
+         			$message->setFigure($this);
+         
+         		}
+         		return $this;
+         	}
 
 	public function removeMessage(Message $message): self
-                           	{
-                           		if ($this->messages->removeElement($message)) {
-                           			// set the owning side to null (unless already changed)
-                           			if ($message->getUser() === $this) {
-                           				$message->setFigure(null);
-                           			}
-                           		}
-                           
-                           		return $this;
-                           	}
+         	{
+         		if ($this->messages->removeElement($message)) {
+         			// set the owning side to null (unless already changed)
+         			if ($message->getUser() === $this) {
+         				$message->setFigure(null);
+         			}
+         		}
+         
+         		return $this;
+         	}
 
     /**
      * @return Collection<int, Video>
@@ -203,14 +204,13 @@ class Figure
 
     public function getCreatedAt(): ?string
     {
-        return $this->created_at;
+        return $this->created_at->format("d-m-Y");
     }
 
     public function setCreatedAt(): self
     {
-        $this->created_at = $this->created_at->format("d-m-Y");
 
-        return $this;
+		return $this;
     }
 
     public function getSlug(): ?string

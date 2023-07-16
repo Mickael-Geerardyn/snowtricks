@@ -113,14 +113,13 @@ class AppFixtures extends Fixture
 
 	public function loadMessages(ObjectManager $manager, $selectedUserObject): void
 	{
-		$maxNumbers = mt_rand(1, 10);
+		$maxNumbers = mt_rand(1, 40);
 
 		for ($i = 0; $i < $maxNumbers; $i++)
 		{
 			$message = new Message();
 
 			$message->setContent("Contenu du message numéro ${i}");
-			$message->setCreatedAt();
 			$message->setFigure($this->figure);
 			$message->setUser($selectedUserObject);
 
@@ -132,9 +131,9 @@ class AppFixtures extends Fixture
 	{
 		$image = new Image();
 		$image->setPath("picture-${i}.jpg");
-		$image->setCreatedAt();
 		$image->setFigure($this->figure);
 		$image->setUser($selectedUserObject);
+		$image->setBanner();
 
 		$manager->persist($image);
 	}

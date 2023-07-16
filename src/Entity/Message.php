@@ -18,7 +18,7 @@ class Message
     #[ORM\Column(type: Types::TEXT, nullable: false)]
     private ?string $content = null;
 
-    #[ORM\Column(type: Types::STRING, length: 50, nullable: false)]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, length: 50, nullable: false)]
     private string|DateTimeImmutable $created_at;
 
 	#[ORM\ManyToOne(targetEntity: Figure::class, inversedBy: "messages")]
@@ -35,9 +35,9 @@ class Message
 	}
 
 	public function getId(): ?int
-             {
-                 return $this->id;
-             }
+	{
+       return $this->id;
+    }
 
     public function getContent(): ?string
     {
@@ -51,15 +51,13 @@ class Message
         return $this;
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): ?string
 	{
-        return $this->created_at;
+        return $this->created_at->format("d-m-Y");
     }
 
     public function setCreatedAt(): self
     {
-        $this->created_at = $this->created_at->format("d-m-Y");
-
         return $this;
     }
 

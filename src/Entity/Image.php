@@ -22,17 +22,20 @@ class Image
     #[ORM\JoinColumn(nullable: false)]
     private ?Figure $figure = null;
 
-    #[ORM\Column (type: Types::STRING,length: 50)]
+    #[ORM\Column (type: Types::DATE_IMMUTABLE, length: 50)]
     private string|DateTimeImmutable $created_at;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column]
+    private ?bool $banner = null;
+
 	public function __construct()
-         	{
-         		$this->created_at = new DateTimeImmutable();
-         	}
+                  	{
+                  		$this->created_at = new DateTimeImmutable();
+                  	}
 
     public function getId(): ?int
     {
@@ -65,13 +68,11 @@ class Image
 
     public function getCreatedAt(): ?string
     {
-        return $this->created_at;
+        return $this->created_at->format("d-m-Y");
     }
 
     public function setCreatedAt(): self
     {
-        $this->created_at = $this->created_at->format("d-m-Y");
-
         return $this;
     }
 
@@ -83,6 +84,18 @@ class Image
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function isBanner(): ?bool
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(bool $banner = false): static
+    {
+        $this->banner = $banner;
 
         return $this;
     }

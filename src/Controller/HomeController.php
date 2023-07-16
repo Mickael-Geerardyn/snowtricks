@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\FigureRepository;
+use App\Repository\MessageRepository;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,11 +17,10 @@ class HomeController extends AbstractController
 	 * @return Response
 	 */
     #[Route('/', name: 'home')]
-    public function home(FigureRepository $figureRepository): Response
+    public function home(FigureRepository $figureRepository, MessageRepository $messageRepository): Response
     {
 		try
 		{
-
 			return $this->render('home/homepage.html.twig', [
 				'figuresObjectsArray' => $figureRepository->findAll(),
 			]);

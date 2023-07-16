@@ -10,21 +10,19 @@
 
             {% if (figuresObjectsArray is defined and figuresObjectsArray is not empty) %}
             {% for figure in figuresObjectsArray %}
+                {% for banner in figure.images %}
             <div class="col">
                 <div class="card h-100">
-                    <img src="{{ (figure.images is not empty) ?
-                    asset('images/' ~ figure.images[0].getPath()) : ""
+                    <img src="{{ (banner is not empty and banner.isBanner is
+                    same as true) ? asset('images/' ~ banner.getPath())
+                    : ""
                     }}"
                          class="card-img-top h-75 object-fit-cover" alt="...">
                     <div class="card-body row align-items-center">
                         <p class="card-text col-8 col-lg-7 mb-0">
-                            <a href="{{ path("app_figure", {slug: figure
-                            .getSlug()})
-                            }}">{{
-                                figure.getName()
-                                }}</a></p>
-                        <a href="{{ path("app_figure_update", {slug: figure
-                            .getSlug()})
+                            <a href="{{ path("app_figure", {slug: figure.getSlug()})
+                            }}">{{ figure.getName() }}</a></p>
+                        <a href="{{ path("app_figure_update", {slug: figure.getSlug()})
                         }}" class="col link-dark h-50 w-50"><svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="currentColor" class="bi
@@ -46,6 +44,7 @@
                     </div>
                 </div>
             </div>
+                    {% endfor %}
             {% endfor %}
             {% endif %}
         </div>

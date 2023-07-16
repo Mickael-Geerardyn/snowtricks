@@ -63,6 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 		$this->figures = new ArrayCollection();
         $this->messages = new ArrayCollection();
   		$this->images = new ArrayCollection();
+		$this->created_at = new DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -106,15 +107,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?string
     {
-        return $this->created_at;
+        return $this->created_at->format("d-m-Y");
     }
 
-    public function setCreatedAt($dateTime): self
-    {
-        $this->created_at = $dateTime;
-
+    public function setCreatedAt(): self
+	{
         return $this;
     }
 

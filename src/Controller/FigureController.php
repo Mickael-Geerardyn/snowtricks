@@ -8,20 +8,18 @@ use App\Entity\Message;
 use App\Entity\Video;
 use App\Form\CommentFormType;
 use App\Form\FigureFormType;
-use App\Form\ForgotPasswordPageFormType;
-use App\Repository\FigureRepository;
 use App\Repository\MessageRepository;
 use App\Service\DateTime;
+use App\Service\PaginatorService;
 use App\Service\SluggerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Exception\ExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FigureController extends AbstractController
@@ -32,7 +30,8 @@ class FigureController extends AbstractController
 		Request $request,
 		EntityManagerInterface $entityManager,
 		SluggerInterface $slugger,
-		SluggerService $sluggerService): Response
+		SluggerService $sluggerService
+	): Response
 	{
 		try {
 			$figure = new Figure();
@@ -43,35 +42,67 @@ class FigureController extends AbstractController
 
 			if ($form->isSubmitted() && $form->isValid()) {
 
-				// File upload part
-				$uploadedFile = $form->get('image')->getData();
+				$bannerFile = $form->get("banner")->getData();
 
-				if($uploadedFile)
-				{
-					$originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+				$originalBannerFilename = pathinfo($bannerFile->getClientOriginalName(), PATHINFO_FILENAME);
 
-					$safeFilename = $slugger->slug($originalFilename);
-					$newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+				$safeBannerFilename = $slugger->slug($originalBannerFilename);
+				$newBannerFilename  = $safeBannerFilename . '-' . uniqid() . '.' . $bannerFile->guessExtension();
 
-					// Add try-catch to catch if an error occurs during moving file in the storage directory
-					try {
-
-						$uploadedFile->move(
-							$this->getParameter('images_directory'),
-							$newFilename
-						);
-
-					} catch (FileException $e) {
-
-						$this->addFlash("error", "Une erreur est intervenue, veuillez réessayer");
-
-						$this->redirectToRoute("app_figure_create");
-					}
+				try {
+					$bannerFile->move(
+						$this->getParameter('images_directory'),
+						$newBannerFilename
+					);
 
 					$imageEntity = new Image();
-					$imageEntity->setPath($newFilename);
+					$imageEntity->setPath($newBannerFilename);
+					$imageEntity->setUser($this->getUser());
+					$imageEntity->setBanner(true);
 
 					$figure->addImage($imageEntity);
+
+				} catch (Exception $exception)
+				{
+					$this->addFlash("error", $exception->getMessage());
+
+					$this->redirectToRoute("app_figure_create");
+				}
+
+				// File upload part
+				$uploadedFiles = $form->get('image')->getData();
+
+				if($uploadedFiles)
+				{
+						foreach ($uploadedFiles as $uploadedFile) {
+
+							$originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+
+							$safeFilename = $slugger->slug($originalFilename);
+							$newFilename  = $safeFilename . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
+
+							// Add try-catch to catch if an error occurs during moving file in the storage directory
+							try {
+
+								$uploadedFile->move(
+									$this->getParameter('images_directory'),
+									$newFilename
+								);
+
+							} catch (FileException $e) {
+
+								$this->addFlash("error", $e->getMessage());
+
+								$this->redirectToRoute("app_figure_create");
+							}
+
+							$imageEntity = new Image();
+							$imageEntity->setPath($newFilename);
+							$imageEntity->setUser($this->getUser());
+							$imageEntity->setBanner();
+
+							$figure->addImage($imageEntity);
+						}
 				}
 
 				// Upload video string path part
@@ -122,6 +153,16 @@ class FigureController extends AbstractController
 	{
 		try {
 
+			$images = $figure->getImages();
+
+			foreach($images as $image)
+			{
+				$projectDir = $this->getParameter("images_directory");
+				$fileSystem = new Filesystem();
+
+				$fileSystem->remove($projectDir ."/" . $image->getPath());
+			}
+
 			$entityManager->remove($figure);
 			$entityManager->flush();
 
@@ -144,7 +185,8 @@ class FigureController extends AbstractController
 		EntityManagerInterface $entityManager,
 		SluggerInterface $slugger,
 		SluggerService $sluggerService,
-		DateTime $dateTime): Response
+		DateTime $dateTime
+	): Response
 	{
 		try {
 
@@ -172,7 +214,7 @@ class FigureController extends AbstractController
 							$newFilename
 						);
 
-					} catch (FileException $e) {
+					} catch (FileException $exception) {
 
 						$this->addFlash("error", "Une erreur est intervenue, veuillez réessayer");
 
@@ -181,6 +223,7 @@ class FigureController extends AbstractController
 
 					$imageEntity = new Image();
 					$imageEntity->setPath($newFilename);
+					$imageEntity->setUser($this->getUser());
 
 					$figure->addImage($imageEntity);
 				}
@@ -226,8 +269,14 @@ class FigureController extends AbstractController
 	}
 
     #[Route('/figure/{slug}', name: 'app_figure')]
-    public function index(string $slug, Figure $figure, Request $request): Response
-    {
+    public function showFigure(Figure $figure, Request $request, EntityManagerInterface $entityManager, PaginatorService $paginatorService): Response
+	{
+		$totalPages = $paginatorService->getTotalPagesPerFigure($figure);
+
+		$currentPage = $paginatorService->getFinalPage($request, $totalPages);
+
+		$comments = $paginatorService->getCurrentPageComments($figure, $currentPage);
+
 		$message = new Message();
 
 		$form = $this->createForm(CommentFormType::class, $message);
@@ -236,14 +285,23 @@ class FigureController extends AbstractController
 
 		if ($form->isSubmitted() && $form->isValid())
 		{
-			$message = $form->getData();
 			$figure->addMessage($message);
-			dd($message, $figure->getMessages()->getValues());
+			$message->setUser($this->getUser());
+
+			$entityManager->persist($figure);
+			$entityManager->flush();
+
+			$this->addFlash("success", "Votre commentaire a bien été enregistré");
+
+			return $this->redirectToRoute("home");
 		}
 
         return $this->render('figure/index.html.twig', [
             'figure' => $figure,
 			'form'=> $form->createView(),
+			'comments' => $comments,
+			'totalPages' => $totalPages,
+			'currentPage' => $currentPage
         ]);
     }
 }

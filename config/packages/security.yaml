@@ -37,6 +37,9 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/figure/new, roles: ROLE_USER }
+         - { path: ^/figure/delete, roles: ROLE_USER }
+         - { path: ^/figure/update, roles: ROLE_USER }
+         - { path: ^/figure/new, roles: ROLE_USER }
 
 when@test:
     security:

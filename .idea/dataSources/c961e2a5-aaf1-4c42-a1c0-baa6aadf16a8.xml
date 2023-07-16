@@ -1176,7 +1176,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="313" parent="301" name="id">
-      <AutoIncrement>551</AutoIncrement>
+      <AutoIncrement>13</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1202,7 +1202,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Position>5</Position>
     </column>
     <column id="318" parent="301" name="created_at">
-      <DasType>varchar(50)|0s</DasType>
+      <Comment>(DC2Type:date_immutable)</Comment>
+      <DasType>date|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
@@ -1244,7 +1245,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="327" parent="302" name="id">
-      <AutoIncrement>385</AutoIncrement>
+      <AutoIncrement>8</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1255,7 +1256,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Position>2</Position>
     </column>
     <column id="329" parent="302" name="created_at">
-      <DasType>varchar(50)|0s</DasType>
+      <Comment>(DC2Type:date_immutable)</Comment>
+      <DasType>date|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
@@ -1270,7 +1272,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="332" parent="303" name="id">
-      <AutoIncrement>551</AutoIncrement>
+      <AutoIncrement>14</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1291,239 +1293,247 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Position>4</Position>
     </column>
     <column id="336" parent="303" name="created_at">
-      <DasType>varchar(50)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>5</Position>
-    </column>
-    <foreign-key id="337" parent="303" name="FK_C53D045F5C011B5">
-      <ColNames>figure_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>figure</RefTableName>
-    </foreign-key>
-    <foreign-key id="338" parent="303" name="FK_C53D045FA76ED395">
-      <ColNames>user_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>user</RefTableName>
-    </foreign-key>
-    <index id="339" parent="303" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="340" parent="303" name="IDX_C53D045F5C011B5">
-      <ColNames>figure_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="341" parent="303" name="IDX_C53D045FA76ED395">
-      <ColNames>user_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="342" parent="303" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <column id="343" parent="304" name="id">
-      <AutoIncrement>2942</AutoIncrement>
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="344" parent="304" name="figure_id">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-    </column>
-    <column id="345" parent="304" name="user_id">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-    </column>
-    <column id="346" parent="304" name="content">
-      <DasType>longtext|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-    </column>
-    <column id="347" parent="304" name="created_at">
-      <DasType>varchar(50)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>5</Position>
-    </column>
-    <foreign-key id="348" parent="304" name="FK_B6BD307F5C011B5">
-      <ColNames>figure_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>figure</RefTableName>
-    </foreign-key>
-    <foreign-key id="349" parent="304" name="FK_B6BD307FA76ED395">
-      <ColNames>user_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>user</RefTableName>
-    </foreign-key>
-    <index id="350" parent="304" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="351" parent="304" name="IDX_B6BD307F5C011B5">
-      <ColNames>figure_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="352" parent="304" name="IDX_B6BD307FA76ED395">
-      <ColNames>user_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="353" parent="304" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <column id="354" parent="305" name="id">
-      <AutoIncrement>93</AutoIncrement>
-      <DasType>bigint|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="355" parent="305" name="body">
-      <DasType>longtext|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-    </column>
-    <column id="356" parent="305" name="headers">
-      <DasType>longtext|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-    </column>
-    <column id="357" parent="305" name="queue_name">
-      <DasType>varchar(190)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-    </column>
-    <column id="358" parent="305" name="created_at">
-      <Comment>(DC2Type:datetime_immutable)</Comment>
-      <DasType>datetime|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>5</Position>
-    </column>
-    <column id="359" parent="305" name="available_at">
-      <Comment>(DC2Type:datetime_immutable)</Comment>
-      <DasType>datetime|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>6</Position>
-    </column>
-    <column id="360" parent="305" name="delivered_at">
-      <Comment>(DC2Type:datetime_immutable)</Comment>
-      <DasType>datetime|0s</DasType>
-      <Position>7</Position>
-    </column>
-    <index id="361" parent="305" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="362" parent="305" name="IDX_75EA56E0FB7336F0">
-      <ColNames>queue_name</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="363" parent="305" name="IDX_75EA56E0E3BD61CE">
-      <ColNames>available_at</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="364" parent="305" name="IDX_75EA56E016BA31DB">
-      <ColNames>delivered_at</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="365" parent="305" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <column id="366" parent="306" name="id">
-      <AutoIncrement>223</AutoIncrement>
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="367" parent="306" name="name">
-      <DasType>varchar(50)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-    </column>
-    <column id="368" parent="306" name="email">
-      <DasType>varchar(255)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-    </column>
-    <column id="369" parent="306" name="password">
-      <DasType>varchar(255)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-    </column>
-    <column id="370" parent="306" name="created_at">
       <Comment>(DC2Type:date_immutable)</Comment>
       <DasType>date|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="371" parent="306" name="is_verified">
+    <column id="337" parent="303" name="banner">
       <DasType>tinyint(1)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="372" parent="306" name="token_validator">
-      <DasType>varchar(255)|0s</DasType>
-      <Position>7</Position>
-    </column>
-    <column id="373" parent="306" name="roles">
-      <DasType>json|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>8</Position>
-    </column>
-    <index id="374" parent="306" name="PRIMARY">
+    <foreign-key id="338" parent="303" name="FK_C53D045F5C011B5">
+      <ColNames>figure_id</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>figure</RefTableName>
+    </foreign-key>
+    <foreign-key id="339" parent="303" name="FK_C53D045FA76ED395">
+      <ColNames>user_id</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>user</RefTableName>
+    </foreign-key>
+    <index id="340" parent="303" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="375" parent="306" name="PRIMARY">
+    <index id="341" parent="303" name="IDX_C53D045F5C011B5">
+      <ColNames>figure_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="342" parent="303" name="IDX_C53D045FA76ED395">
+      <ColNames>user_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="343" parent="303" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="376" parent="307" name="id">
+    <column id="344" parent="304" name="id">
+      <AutoIncrement>66</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="345" parent="304" name="figure_id">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="346" parent="304" name="user_id">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="347" parent="304" name="content">
+      <DasType>longtext|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="348" parent="304" name="created_at">
+      <Comment>(DC2Type:date_immutable)</Comment>
+      <DasType>date|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <foreign-key id="349" parent="304" name="FK_B6BD307F5C011B5">
+      <ColNames>figure_id</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>figure</RefTableName>
+    </foreign-key>
+    <foreign-key id="350" parent="304" name="FK_B6BD307FA76ED395">
+      <ColNames>user_id</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>user</RefTableName>
+    </foreign-key>
+    <index id="351" parent="304" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="352" parent="304" name="IDX_B6BD307F5C011B5">
+      <ColNames>figure_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="353" parent="304" name="IDX_B6BD307FA76ED395">
+      <ColNames>user_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="354" parent="304" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="355" parent="305" name="id">
+      <AutoIncrement>93</AutoIncrement>
+      <DasType>bigint|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="356" parent="305" name="body">
+      <DasType>longtext|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="357" parent="305" name="headers">
+      <DasType>longtext|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="358" parent="305" name="queue_name">
+      <DasType>varchar(190)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="359" parent="305" name="created_at">
+      <Comment>(DC2Type:datetime_immutable)</Comment>
+      <DasType>datetime|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="360" parent="305" name="available_at">
+      <Comment>(DC2Type:datetime_immutable)</Comment>
+      <DasType>datetime|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <column id="361" parent="305" name="delivered_at">
+      <Comment>(DC2Type:datetime_immutable)</Comment>
+      <DasType>datetime|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <index id="362" parent="305" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="363" parent="305" name="IDX_75EA56E0FB7336F0">
+      <ColNames>queue_name</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="364" parent="305" name="IDX_75EA56E0E3BD61CE">
+      <ColNames>available_at</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="365" parent="305" name="IDX_75EA56E016BA31DB">
+      <ColNames>delivered_at</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="366" parent="305" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="367" parent="306" name="id">
+      <AutoIncrement>4</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="368" parent="306" name="name">
+      <DasType>varchar(50)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="369" parent="306" name="email">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="370" parent="306" name="password">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="371" parent="306" name="created_at">
+      <Comment>(DC2Type:date_immutable)</Comment>
+      <DasType>date|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="372" parent="306" name="is_verified">
+      <DasType>tinyint(1)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <column id="373" parent="306" name="token_validator">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <column id="374" parent="306" name="roles">
+      <DasType>json|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+    </column>
+    <index id="375" parent="306" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="376" parent="306" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="377" parent="307" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="377" parent="307" name="figure_id">
+    <column id="378" parent="307" name="figure_id">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="378" parent="307" name="path">
+    <column id="379" parent="307" name="path">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="379" parent="307" name="created_at">
-      <DasType>varchar(50)|0s</DasType>
+    <column id="380" parent="307" name="created_at">
+      <Comment>(DC2Type:date_immutable)</Comment>
+      <DasType>date|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="380" parent="307" name="FK_7CC7DA2C5C011B5">
+    <foreign-key id="381" parent="307" name="FK_7CC7DA2C5C011B5">
       <ColNames>figure_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>figure</RefTableName>
     </foreign-key>
-    <index id="381" parent="307" name="PRIMARY">
+    <index id="382" parent="307" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="382" parent="307" name="IDX_7CC7DA2C5C011B5">
+    <index id="383" parent="307" name="IDX_7CC7DA2C5C011B5">
       <ColNames>figure_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="383" parent="307" name="PRIMARY">
+    <key id="384" parent="307" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

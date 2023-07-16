@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\VideoRepository;
 use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
@@ -17,7 +18,7 @@ class Video
     #[ORM\Column(length: 50)]
     private ?string $path = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(type: TYPES::DATE_IMMUTABLE, length: 50)]
     private string|DateTimeImmutable $created_at;
 
     #[ORM\ManyToOne(inversedBy: 'videos')]
@@ -47,13 +48,11 @@ class Video
 
     public function getCreatedAt(): ?string
     {
-        return $this->created_at;
+        return $this->created_at->format("d-m-Y");
     }
 
-    public function setCreatedAt(?DateTimeImmutable $created_at): self
+    public function setCreatedAt(): self
     {
-        $this->created_at = $created_at->format("d-m-Y");
-
         return $this;
     }
 

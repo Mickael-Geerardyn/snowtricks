@@ -62,7 +62,7 @@ class RegistrationController extends AbstractController
 					),
 				);
 
-				$user->setCreatedAt(new DateTimeImmutable());
+				$user->setCreatedAt();
 
 				$validatorToken = $customTokenGenerator->getToken($user->getEmail());
 
