@@ -39,7 +39,10 @@ security:
          - { path: ^/figure/new, roles: ROLE_USER }
          - { path: ^/figure/delete, roles: ROLE_USER }
          - { path: ^/figure/update, roles: ROLE_USER }
-         - { path: ^/figure/new, roles: ROLE_USER }
+         - { path: ^/image/delete, roles: ROLE_USER }
+         - { path: ^/image/update, roles: ROLE_USER }
+         - { path: ^/video/update, roles: ROLE_USER }
+         - { path: ^/video/delete, roles: ROLE_USER }
 
 when@test:
     security:

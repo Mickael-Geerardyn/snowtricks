@@ -133,7 +133,7 @@ class AppFixtures extends Fixture
 		$image->setPath("picture-${i}.jpg");
 		$image->setFigure($this->figure);
 		$image->setUser($selectedUserObject);
-		$image->setBanner();
+		$image->setBanner(true);
 
 		$manager->persist($image);
 	}

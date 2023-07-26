@@ -1,6 +1,6 @@
-
+<header class="fixed-bottom sticky-lg-top">
 <nav
-        class="navbar navbar-expand-lg bg-light bg-gradient fixed-bottom sticky-lg-top">
+        class="navbar navbar-expand-lg bg-light bg-gradient">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path("home") }}"><img
                     src="{{ asset('images/snowtricks-logo.png') }}"
@@ -41,6 +41,7 @@
         </div>
     </div>
 </nav>
+</header>
 {% if app.session.flashBag.has('success') %}
     <div class="alert alert-success" role="alert">
         {{ app.session.flashBag.get('success')[0] }}

@@ -18,14 +18,14 @@ class Image
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     private ?string $path = null;
 
-    #[ORM\ManyToOne(inversedBy: 'images')]
+    #[ORM\ManyToOne(cascade: null ,inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Figure $figure = null;
 
     #[ORM\Column (type: Types::DATE_IMMUTABLE, length: 50)]
     private string|DateTimeImmutable $created_at;
 
-    #[ORM\ManyToOne(inversedBy: 'images')]
+    #[ORM\ManyToOne(cascade: null, inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

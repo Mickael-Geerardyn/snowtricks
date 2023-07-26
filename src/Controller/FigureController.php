@@ -8,10 +8,10 @@ use App\Entity\Message;
 use App\Entity\Video;
 use App\Form\CommentFormType;
 use App\Form\FigureFormType;
-use App\Repository\MessageRepository;
 use App\Service\DateTime;
 use App\Service\PaginatorService;
 use App\Service\SluggerService;
+use App\Service\VideoRegex;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,13 +24,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FigureController extends AbstractController
 {
-
 	#[Route("/figure/new", name: 'app_figure_create')]
 	public function createFigure(
 		Request $request,
 		EntityManagerInterface $entityManager,
 		SluggerInterface $slugger,
-		SluggerService $sluggerService
+		SluggerService $sluggerService,
+		VideoRegex $videoRegex
 	): Response
 	{
 		try {
@@ -108,13 +108,19 @@ class FigureController extends AbstractController
 				// Upload video string path part
 				$videoPath = $form->get("video")->getData();
 
-				if($videoPath)
+				$result = $videoRegex->getVideoUrl($videoPath);
+
+				if(!$result)
 				{
+					$this->addFlash("error", "Une erreur est survenue, veuillez réessayer");
+
+					return $this->redirectToRoute("home");
+				}
+
 					$videoEntity = new Video();
-					$videoEntity->setPath($videoPath);
+					$videoEntity->setPath($result[0]);
 
 					$figure->addVideo($videoEntity);
-				}
 
 				$figureName = $figure->getName();
 				$sluggedName = $sluggerService->makeSlug($figureName);
@@ -158,6 +164,7 @@ class FigureController extends AbstractController
 			foreach($images as $image)
 			{
 				$projectDir = $this->getParameter("images_directory");
+
 				$fileSystem = new Filesystem();
 
 				$fileSystem->remove($projectDir ."/" . $image->getPath());
@@ -258,6 +265,7 @@ class FigureController extends AbstractController
 
 			return $this->render("figure/update.html.twig", [
 				"figureForm" => $form->createView(),
+				"figure" => $figure
 			]);
 
 		} catch (Exception $exception)
@@ -269,7 +277,12 @@ class FigureController extends AbstractController
 	}
 
     #[Route('/figure/{slug}', name: 'app_figure')]
-    public function showFigure(Figure $figure, Request $request, EntityManagerInterface $entityManager, PaginatorService $paginatorService): Response
+    public function showFigure(
+		Figure $figure,
+		Request $request,
+		EntityManagerInterface $entityManager,
+		PaginatorService $paginatorService
+	): Response
 	{
 		$totalPages = $paginatorService->getTotalPagesPerFigure($figure);
 

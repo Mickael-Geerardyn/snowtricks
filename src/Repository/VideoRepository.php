@@ -39,6 +39,17 @@ class VideoRepository extends ServiceEntityRepository
         }
     }
 
+	public function findVideosByFigure($figure)
+	{
+		return $this->createQueryBuilder("video")
+			->andWhere("video.figure = :figure")
+			->setParameter("figure", $figure)
+			->orderBy("video.created_at", "DESC")
+			->getQuery()
+			->getResult()
+			;
+	}
+
 //    /**
 //     * @return Video[] Returns an array of Video objects
 //     */

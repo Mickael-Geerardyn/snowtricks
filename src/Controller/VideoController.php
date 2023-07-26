@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\Video;
 use App\Form\ImageFormType;
+use App\Form\VideoFormType;
+use App\Service\VideoRegex;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -24,46 +27,62 @@ class VideoController extends AbstractController
 		Request          $request,
 		SluggerInterface $slugger,
 		EntityManagerInterface $entityManager,
+		VideoRegex $videoRegex
+
 	): Response
 	{
-		$form = $this->createForm(ImageFormType::class);
+		$form = $this->createForm(VideoFormType::class, $video);
 
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())
 		{
+			$videoPath = $form->get("path")->getData();
 
+			$result = $videoRegex->getVideoUrl($videoPath);
+
+			if(!$result)
+			{
+				$this->addFlash("error", "Une erreur est survenue, veuillez réessayer");
+
+				return $this->redirectToRoute("home");
+			}
+
+			$video->setPath($result[0]);
 
 				$entityManager->persist($video);
 				$entityManager->flush();
-			}
 
-			$this->addFlash("success", "L'image a bien été mise à jour");
+			$this->addFlash("success", "La vidéo a bien été mise à jour");
 
 			return $this->redirectToRoute("home");
 		}
 
-		return $this->render('image/update.html.twig', [
-			'imageForm' => $form->createView(),
+		return $this->render('video/update.html.twig', [
+			'videoForm' => $form->createView(),
 		]);
 	}
 
-	#[Route('/image/delete/{id}', name: 'app_image_delete')]
+	#[Route('/video/delete/{id}', name: 'app_video_delete')]
 	public function deleteImage(
-		Image $image,
+		Video $video,
 		EntityManagerInterface $entityManager,
 	):RedirectResponse
 	{
-		$projectDir = $this->getParameter("images_directory");
-		$fileSystem = new Filesystem();
+		try {
 
-		$fileSystem->remove($projectDir ."/" . $image->getPath());
+			$entityManager->remove($video);
+			$entityManager->flush();
 
-		$entityManager->remove($image);
-		$entityManager->flush();
+			$this->addFlash("success", "La vidéo a bien été supprimée");
 
-		$this->addFlash("success", "L'image a bien été supprimée");
+			return $this->redirectToRoute("home");
 
-		return $this->redirectToRoute("home");
+		} catch (Exception $exception){
+
+			$this->addFlash("error", $exception->getMessage());
+
+			return $this->redirectToRoute("home");
+		}
 	}
 }

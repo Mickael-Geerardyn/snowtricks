@@ -16,7 +16,8 @@ class ImageFormType extends AbstractType
     {
         $builder
             ->add('path', FileType::class, [
-				"label" => "Images",
+				"label" => "Image",
+				"mapped" => false,
 				'constraints' => [
 					new File([
 						'maxSize' => '1024k',

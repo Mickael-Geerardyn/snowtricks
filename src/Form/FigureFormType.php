@@ -35,7 +35,7 @@ class FigureFormType extends AbstractType
 				'choice_label' => 'name',
 				'required' => true,
 				'multiple' => false,
-				'expanded' => true,
+				'expanded' => false,
 			])
 			->add('banner', FileType::class, [
 				'label' => "Insérer l'image principale",
@@ -45,7 +45,7 @@ class FigureFormType extends AbstractType
 
 			])
 			->add('image', FileType::class, [
-				'label' => "Insérer l'image",
+				'label' => "Insérer la ou les images",
 				'mapped' => false,
 				'multiple' => true,
 				'required' => false,

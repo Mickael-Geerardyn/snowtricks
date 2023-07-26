@@ -5,25 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d076bad1-f422-4129-897a-f99ac971f3a2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Service/PaginatorService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/c961e2a5-aaf1-4c42-a1c0-baa6aadf16a8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c961e2a5-aaf1-4c42-a1c0-baa6aadf16a8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/picture-0.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/picture-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/picture-2.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/FigureController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FigureController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RegistrationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ImageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ImageController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/SecurityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SecurityController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/VideoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/VideoController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Figure.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Figure.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Groupe.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Groupe.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Image.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Image.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Message.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Message.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Video.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Video.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Form/FigureFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/FigureFormType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/MessageRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/MessageRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/figure/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/figure/create.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/ImageFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ImageFormType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/ImageRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ImageRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/VideoRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/VideoRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/PaginatorService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PaginatorService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/VideoRegex.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/VideoRegex.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/figure/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/figure/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/figure/update.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/figure/update.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/footer.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/footer.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home/homepage.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/homepage.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/image/update.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/image/update.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/navbar.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/token/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/token/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/video/update.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/video/update.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -352,7 +361,13 @@
       <workItem from="1689438928954" duration="13941000" />
       <workItem from="1689462173133" duration="2000" />
       <workItem from="1689462308177" duration="4362000" />
-      <workItem from="1689514417925" duration="6340000" />
+      <workItem from="1689514417925" duration="17177000" />
+      <workItem from="1689544997060" duration="4841000" />
+      <workItem from="1689610640301" duration="12080000" />
+      <workItem from="1689697951600" duration="8830000" />
+      <workItem from="1689777297771" duration="2999000" />
+      <workItem from="1690235399704" duration="6346000" />
+      <workItem from="1690323518217" duration="8436000" />
     </task>
     <servers />
   </component>

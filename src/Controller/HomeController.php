@@ -17,7 +17,10 @@ class HomeController extends AbstractController
 	 * @return Response
 	 */
     #[Route('/', name: 'home')]
-    public function home(FigureRepository $figureRepository, MessageRepository $messageRepository): Response
+    public function home(
+		FigureRepository $figureRepository,
+		MessageRepository $messageRepository
+	): Response
     {
 		try
 		{

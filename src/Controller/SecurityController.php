@@ -6,7 +6,6 @@ use App\Form\ForgotPasswordPageFormType;
 use App\Form\ResetPasswordPageFormType;
 use App\Repository\UserRepository;
 use App\Security\CustomTokenGenerator;
-use App\Service\CustomTokenValidatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +22,7 @@ class SecurityController extends AbstractController
 		CustomTokenGenerator $customTokenGenerator,
 		MailerController $mailerController,
 		UserRepository $userRepository,
+		EntityManagerInterface $entityManager,
 	): Response
     {
 		try {
@@ -33,9 +33,10 @@ class SecurityController extends AbstractController
 
 			if ($form->isSubmitted() && $form->isValid())
 			{
-				$user = $userRepository->findOneBy([
+				$user = $userRepository->findOneBy
+				([
 					'name' => $form->get("name")->getData(),
-												   ]);
+					 ]);
 
 				if (!$user)
 				{
@@ -45,6 +46,11 @@ class SecurityController extends AbstractController
 				}
 
 				$validatorToken = $customTokenGenerator->getToken($user->getEmail());
+
+				$user->setTokenValidator($validatorToken);
+
+				$entityManager->persist($user);
+				$entityManager->flush();
 
 				$mailerController->sendForgotPasswordMail($user->getEmail(), $user->getName(), $validatorToken);
 
@@ -74,23 +80,17 @@ class SecurityController extends AbstractController
 		UserRepository              $userRepository,
 		UserPasswordHasherInterface $userPasswordHasher,
 		EntityManagerInterface      $entityManager,
-		CustomTokenValidatorService $CustomTokenValidatorService,
 		string                      $token,
 		string                      $userEmail
 	): Response
 	{
 		try {
 
-			if(!$CustomTokenValidatorService->validateCsrfToken($userEmail, $token))
-			{
-				$this->addFlash("error", "Une erreur est intervenue, veuillez réessayer");
-
-				return $this->redirectToRoute("home");
-			}
-
-			$user = $userRepository->findOneBy([
-												   "email" => $userEmail
-											   ]);
+			$user = $userRepository->findOneBy
+			([
+				"email" => $userEmail,
+				"tokenValidator" => $token
+			 ]);
 
 			if (empty($user)) {
 

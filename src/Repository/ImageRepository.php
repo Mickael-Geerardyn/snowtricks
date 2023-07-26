@@ -39,6 +39,22 @@ class ImageRepository extends ServiceEntityRepository
         }
     }
 
+	/**
+	 * @param $figure
+	 *
+	 * @return Image[] Returns an array of Image objects
+	 */
+	public function findImagesByFigure($figure): array
+	{
+		return $this->createQueryBuilder("image")
+			->andWhere("image.figure = :figure")
+			->setParameter("figure", $figure)
+			->orderBy("image.created_at", "DESC")
+			->getQuery()
+			->getResult()
+			;
+	}
+
 //    /**
 //     * @return Image[] Returns an array of Image objects
 //     */

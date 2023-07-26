@@ -59,7 +59,7 @@ class PaginatorService
 		return intval($currentPage + 1);
 	}
 
-	public function getParameterKey(Request $request): string|bool
+	public function getParameterKey(Request $request): string|null
 	{
 		foreach($this->commentsQueryPagesKeys as $parameterKey)
 		{
@@ -68,7 +68,7 @@ class PaginatorService
 				return $parameterKey;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	public function getCurrentPage(Request $request, int $totalPages): ?int
