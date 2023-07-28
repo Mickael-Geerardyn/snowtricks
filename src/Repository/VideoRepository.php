@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Figure;
 use App\Entity\Video;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,7 +40,7 @@ class VideoRepository extends ServiceEntityRepository
         }
     }
 
-	public function findVideosByFigure($figure)
+	public function findVideosByFigure(Figure $figure): Video
 	{
 		return $this->createQueryBuilder("video")
 			->andWhere("video.figure = :figure")
@@ -49,29 +50,4 @@ class VideoRepository extends ServiceEntityRepository
 			->getResult()
 			;
 	}
-
-//    /**
-//     * @return Video[] Returns an array of Video objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('v')
-//            ->andWhere('v.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('v.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Video
-//    {
-//        return $this->createQueryBuilder('v')
-//            ->andWhere('v.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

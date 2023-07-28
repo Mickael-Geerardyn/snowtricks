@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Figure;
 use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -41,7 +42,7 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
-	public function getPaginatedComments( $figure, int $page = 1, $maxResult = 10): Paginator
+	public function getPaginatedComments(Figure $figure, int $page = 1, int $maxResult = 10): Paginator
 	{
 		$query = $this->createQueryBuilder("comments")
 			->leftJoin('comments.figure', 'figure')

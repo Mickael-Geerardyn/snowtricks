@@ -97,7 +97,7 @@ class RegistrationController extends AbstractController
 		defaults: ["userEmail" => "userEmail"] ,
 		methods: ['GET']
 	)]
-    public function registrationValidation(string $token, string $userEmail, UserRepository $userRepository)
+    public function registrationValidation(string $token, string $userEmail, UserRepository $userRepository): Response
 	{
 		$user = $userRepository->findOneBy([
 												"email" => $userEmail,

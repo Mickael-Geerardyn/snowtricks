@@ -111,7 +111,7 @@ class AppFixtures extends Fixture
 		}
 	}
 
-	public function loadMessages(ObjectManager $manager, $selectedUserObject): void
+	public function loadMessages(ObjectManager $manager, User $selectedUserObject): void
 	{
 		$maxNumbers = mt_rand(1, 40);
 
@@ -127,7 +127,7 @@ class AppFixtures extends Fixture
 		}
 	}
 
-	public function loadImage(int $i, ObjectManager $manager, $selectedUserObject): void
+	public function loadImage(int $i, ObjectManager $manager, User $selectedUserObject): void
 	{
 		$image = new Image();
 		$image->setPath("picture-${i}.jpg");
