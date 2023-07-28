@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter{% endblock %}
+
+{% block body %}
+<div class="container mt-4 mb-5">
+<form method="post">
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <h1 class="h3 mb-3 font-weight-normal">Se connecter</h1>
+
+    <div class="border border-dark p-5">
+
+    <label for="inputEmail">Nom</label>
+    <input type="text" value="{{ last_username }}"
+           name="_username"
+           id="inputEmail"
+           class="form-control" autocomplete="name" required autofocus>
+    <label for="inputPassword">Password</label>
+    <input type="password" name="_password" id="inputPassword"
+           class="form-control" autocomplete="current-password" required>
+
+        <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+    <button class="btn btn-lg btn-primary mt-4" type="submit">
+        Se connecter
+    </button>
+        <p class="mt-4"><a href="{{ path('app_password_forgot_page') }}">Mot de passe oublié</a></p>
+    </div>
+</form>
+</div>
+{% endblock %}
