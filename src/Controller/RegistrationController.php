@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\CustomTokenGenerator;
-use App\Security\EmailVerifier;
 use App\Service\DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,9 +28,12 @@ class RegistrationController extends AbstractController
 {
 	/**
 	 * @param Request                     $request
+	 * @param Session                     $session
 	 * @param UserPasswordHasherInterface $userPasswordHasher
 	 * @param EntityManagerInterface      $entityManager
 	 * @param MailerController            $mailerController
+	 * @param DateTime                    $dateTime
+	 * @param CustomTokenGenerator        $customTokenGenerator
 	 *
 	 * @return Response
 	 */

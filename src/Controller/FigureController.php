@@ -108,7 +108,9 @@ class FigureController extends AbstractController
 				// Upload video string path part
 				$videoPath = $form->get("video")->getData();
 
+				dump($videoPath);
 				$result = $videoRegex->getVideoUrl($videoPath);
+				dd($result);
 
 				if(!$result)
 				{
