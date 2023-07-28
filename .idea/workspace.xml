@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d076bad1-f422-4129-897a-f99ac971f3a2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/FigureController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FigureController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RegistrationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/VideoRegex.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/VideoRegex.php" afterDir="false" />
-    </list>
+    <list default="true" id="d076bad1-f422-4129-897a-f99ac971f3a2" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -347,7 +342,7 @@
       <workItem from="1690409960494" duration="1301000" />
       <workItem from="1690459732323" duration="2000" />
       <workItem from="1690459804906" duration="3991000" />
-      <workItem from="1690566412078" duration="1741000" />
+      <workItem from="1690566412078" duration="2425000" />
     </task>
     <servers />
   </component>
