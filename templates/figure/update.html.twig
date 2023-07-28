@@ -51,8 +51,8 @@
 
         <div class="container mt-lg-4 mt-2 px-1 px-lg-4">
             <div class="row row-cols-2">
+                {% if figure.images is not empty %}
                 <div class="col">
-            {% if figure.images is not empty %}
                 <div class="row row-cols-xl-3 row-cols-lg-3 row-cols-1
                 align-content-around h-100">
                     {% for image in figure.images %}
@@ -91,10 +91,10 @@
                         </div>
                     {% endfor %}
                 </div>
-            {% endif %}
                 </div>
+                {% endif %}
+                {% if figure.videos is not empty %}
                 <div class="col">
-            {% if figure.videos is not empty %}
                 <div class="row row-cols-xl-3 row-cols-lg-3 row-cols-1
                 align-content-around h-100">
                     {% for video in figure.videos %}
@@ -137,8 +137,8 @@
                         </div>
                     {% endfor %}
                 </div>
-            {% endif %}
                 </div>
+                {% endif %}
             </div>
             <div class="container mt-4 mb-5">
                 {% for flash_error in app.flashes('verify_email_error') %}
