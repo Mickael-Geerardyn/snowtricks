@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la vidéo{% endblock %}
+
+{% block body %}
+    <div class="container mt-4 mb-5">
+
+        <h1 class="mb-5 m-0">Modifier la vidéo</h1>
+
+        <div class="border border-dark p-5">
+
+            {{ form_start(videoForm) }}
+            {{ form_row(videoForm.path) }}
+            <button type="submit" class="btn btn-primary
+        mt-4">Enregistrer</button>
+
+            {{ form_end(videoForm) }}
+
+        </div>
+    </div>
+{% endblock %}

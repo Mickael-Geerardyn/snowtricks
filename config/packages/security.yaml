@@ -5,13 +5,26 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         users_in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: 'App\Entity\User'
+                property: 'name'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            custom_authenticator: App\Security\LoginAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+        secured_area:
+            provider: app_user_provider
+            form_login:
+                enable_csrf: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -23,7 +36,13 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/figure/new, roles: ROLE_USER }
+         - { path: ^/figure/delete, roles: ROLE_USER }
+         - { path: ^/figure/update, roles: ROLE_USER }
+         - { path: ^/image/delete, roles: ROLE_USER }
+         - { path: ^/image/update, roles: ROLE_USER }
+         - { path: ^/video/update, roles: ROLE_USER }
+         - { path: ^/video/delete, roles: ROLE_USER }
 
 when@test:
     security:

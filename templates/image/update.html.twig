@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'image{% endblock %}
+
+{% block body %}
+    <div class="container mt-4 mb-5">
+
+        <h1 class="mb-5 m-0">Modifier l'image</h1>
+
+        <div class="border border-dark p-5">
+
+            {{ form_start(imageForm) }}
+            {{ form_row(imageForm.path) }}
+            <button type="submit" class="btn btn-primary
+        mt-4">Enregistrer</button>
+
+            {{ form_end(imageForm) }}
+
+        </div>
+    </div>
+{% endblock %}
