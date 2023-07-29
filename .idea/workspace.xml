@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-
-    <list default="true" id="d076bad1-f422-4129-897a-f99ac971f3a2" name="Changes" comment="" />
-=======
     <list default="true" id="d076bad1-f422-4129-897a-f99ac971f3a2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/FigureController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FigureController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RegistrationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/VideoRegex.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/VideoRegex.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Security/LoginAuthenticator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/LoginAuthenticator.php" afterDir="false" />
     </list>
->>>>>>> c377a6288c64cb0a43d94891c39a9394ea57d41e
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,13 +33,10 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-
                     <option name="branchName" value="main" />
                     <option name="lastUsedInstant" value="1690578348" />
                   </RecentBranch>
                   <RecentBranch>
-=======
->>>>>>> c377a6288c64cb0a43d94891c39a9394ea57d41e
                     <option name="branchName" value="comments_features" />
                     <option name="lastUsedInstant" value="1688678123" />
                   </RecentBranch>
@@ -62,13 +52,10 @@
                     <option name="branchName" value="HomeController" />
                     <option name="lastUsedInstant" value="1683245407" />
                   </RecentBranch>
-
-=======
                   <RecentBranch>
                     <option name="branchName" value="main" />
                     <option name="lastUsedInstant" value="1683243110" />
                   </RecentBranch>
->>>>>>> c377a6288c64cb0a43d94891c39a9394ea57d41e
                 </list>
               </option>
               <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
@@ -361,11 +348,8 @@
       <workItem from="1690409960494" duration="1301000" />
       <workItem from="1690459732323" duration="2000" />
       <workItem from="1690459804906" duration="3991000" />
-
       <workItem from="1690566412078" duration="3172000" />
-=======
       <workItem from="1690566412078" duration="1741000" />
->>>>>>> c377a6288c64cb0a43d94891c39a9394ea57d41e
     </task>
     <servers />
   </component>
