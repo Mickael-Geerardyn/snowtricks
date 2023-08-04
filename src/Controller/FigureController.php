@@ -192,7 +192,8 @@ class FigureController extends AbstractController
 		EntityManagerInterface $entityManager,
 		SluggerInterface $slugger,
 		SluggerService $sluggerService,
-		DateTime $dateTime
+		DateTime $dateTime,
+		VideoRegex $videoRegex
 	): Response
 	{
 		try {
@@ -238,10 +239,13 @@ class FigureController extends AbstractController
 				// Upload video string path part
 				$videoPath = $form->get("video")->getData();
 
-				if($videoPath)
+				$result = $videoRegex->getVideoUrl($videoPath);
+
+				if($result)
 				{
 					$videoEntity = new Video();
-					$videoEntity->setPath($videoPath);
+					$videoEntity->setPath($result[0]);
+					$videoEntity->setUser($this->getUser());
 
 					$figure->addVideo($videoEntity);
 				}

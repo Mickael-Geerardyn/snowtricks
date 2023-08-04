@@ -21,14 +21,18 @@ class Video
     #[ORM\Column(type: TYPES::DATE_IMMUTABLE, length: 50)]
     private string|DateTimeImmutable $created_at;
 
-    #[ORM\ManyToOne(inversedBy: 'videos')]
+    #[ORM\ManyToOne(cascade: null, inversedBy: 'videos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Figure $figure = null;
 
+    #[ORM\ManyToOne(cascade: null, inversedBy: 'videos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
 	public function __construct()
-	{
-		$this->created_at = new DateTimeImmutable();
-	}
+         	{
+         		$this->created_at = new DateTimeImmutable();
+         	}
     public function getId(): ?int
     {
         return $this->id;
@@ -64,6 +68,18 @@ class Video
     public function setFigure(?Figure $figure): self
     {
         $this->figure = $figure;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -64,7 +64,7 @@ class VideoController extends AbstractController
 	}
 
 	#[Route('/video/delete/{id}', name: 'app_video_delete')]
-	public function deleteImage(
+	public function deleteVideo(
 		Video $video,
 		EntityManagerInterface $entityManager,
 	):RedirectResponse

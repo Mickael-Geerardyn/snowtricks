@@ -4,11 +4,15 @@
 
 {% block body %}
     <div class="container-fluid px-0 gx-5 position-relative">
+        {% if figure.images is not empty %}
+            {% for banner in figure.images %}
+                {% if (banner.isBanner) %}
         <div class="position-absolute top-0 end-0 w-25 d-flex
         justify-content-end" style="z-index: 2">
             <div class="row border border-dark py-3 mt-4 me-4 w-50">
                 <div class="col d-flex justify-content-center">
-                    <a href="{{ path("app_figure_update", {slug: figure.getSlug()}) }}" class="link-dark">
+                    <a href="{{ path("app_image_update", {id: banner.getId()
+                    }) }}" class="link-dark">
                         <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="25" height="25"
@@ -20,8 +24,9 @@
                     </a>
                 </div>
                 <div class="col d-flex justify-content-center">
-                    <a href="{{ path("app_figure_delete", {slug: figure.getSlug()})
-                    }}" class="link-dark"><svg
+                    <a href="{{ path("app_image_delete", {id: banner.getId})
+                    }}" class="link-dark">
+                        <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="25" height="25"
                                 fill="currentColor" class="bi bi-trash
@@ -33,6 +38,9 @@
                 </div>
             </div>
         </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
 
         <div class="container-fluid text-center position-relative d-flex
         justify-content-center align-items-center">
