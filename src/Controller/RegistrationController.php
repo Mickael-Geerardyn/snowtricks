@@ -75,7 +75,9 @@ class RegistrationController extends AbstractController
 
 				$mailerController->sendRegistrationMail($user->getEmail(), $user->getName(), $validatorToken);
 
-				return $this->render('home/homepage.html.twig', ['success' => "Validez votre inscription à l'aide du courriel envoyé à l'adresse renseignée!"]);
+				$this->addFlash("success", "Pour terminer votre inscription, veuillez cliquer sur le lien dans le courriel envoyé à l'adresse renseignée.");
+
+				return $this->redirectToRoute("home");
 			};
 
 			return $this->render("registration/sign-up.html.twig", [
@@ -84,10 +86,9 @@ class RegistrationController extends AbstractController
 
 		} catch(Exception|TransportExceptionInterface $exception)
 		{
-			return $this->render("home/homepage.html.twig", [
+			$this->addFlash("error", "Une erreur est survenue, veuillez réessayer");
 
-				"error" => $exception->getMessage()
-			]);
+			return $this->redirectToRoute("home");
 		}
     }
 
@@ -105,16 +106,17 @@ class RegistrationController extends AbstractController
 										   ]);
 
 		if (empty($user)) {
-			return $this->render("home/homepage.html.twig", [
-				"error" => "Une erreur est survenue, veuillez réessayer"
-			]);
+
+			$this->addFlash("error", "Une erreur est survenue, veuillez réessayer");
+
+			return $this->redirectToRoute("home");
 		}
 
 		$userRepository->userAccountValidation($user);
 
-		return $this->render("home/homepage.html.twig", [
-			"success" => "Votre compte est activé!"
-		]);
+		$this->addFlash("success", "Votre compte a bien été activé!");
+
+		return $this->redirectToRoute("home");
 
 	}
 }

@@ -22,6 +22,8 @@ class LoginController extends AbstractController
 			   if($error)
 			   {
 				   $this->addFlash("error", $error);
+
+				   $this->redirectToRoute("app_login");
 			   }
 
         return $this->render('security/login.html.twig', [

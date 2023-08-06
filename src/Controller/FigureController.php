@@ -182,7 +182,7 @@ class FigureController extends AbstractController
 
 		} catch (Exception $exception) {
 
-			$this->addFlash("error", $exception->getMessage());
+			$this->addFlash("error", "Une erreur est intervenue, veuillez réessayer");
 
 			return $this->redirectToRoute("home");
 		}
@@ -296,7 +296,7 @@ class FigureController extends AbstractController
 
 					if(!$result)
 					{
-						throw new Exception("Veuillez renseigner l'url du bouton 'integrer' de partage youtube.");
+						throw new Exception("Veuillez renseigner l'url du bouton 'intégrer' de partage youtube.");
 					}
 
 					$videoEntity = new Video();

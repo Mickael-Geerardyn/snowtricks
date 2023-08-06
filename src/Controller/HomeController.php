@@ -32,7 +32,7 @@ class HomeController extends AbstractController
 		{
 			$this->addFlash("error", $exception->getMessage());
 
-			return $this->render("home/homepage.html.twig");
+			return $this->redirectToRoute("home");
 		}
 
     }
