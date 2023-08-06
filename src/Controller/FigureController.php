@@ -8,7 +8,9 @@ use App\Entity\Message;
 use App\Entity\Video;
 use App\Form\CommentFormType;
 use App\Form\FigureFormType;
+use App\Repository\ImageRepository;
 use App\Service\DateTime;
+use App\Service\FilesService;
 use App\Service\PaginatorService;
 use App\Service\SluggerService;
 use App\Service\VideoRegex;
@@ -21,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use function PHPUnit\Framework\throwException;
 
 class FigureController extends AbstractController
 {
@@ -193,7 +196,9 @@ class FigureController extends AbstractController
 		SluggerInterface $slugger,
 		SluggerService $sluggerService,
 		DateTime $dateTime,
-		VideoRegex $videoRegex
+		VideoRegex $videoRegex,
+		FilesService $filesService,
+		ImageRepository $imageRepository
 	): Response
 	{
 		try {
@@ -202,24 +207,24 @@ class FigureController extends AbstractController
 
 			$form->handleRequest($request);
 
-			if ($form->isSubmitted() && $form->isValid()) {
+			if ($form->isSubmitted() && $form->isValid())
+			{
 
-				// File upload part
-				$uploadedFile = $form->get('image')->getData();
+				$uploadBanner = $form->get('banner')->getData();
 
-				if($uploadedFile)
+				if($uploadBanner)
 				{
-					$originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+					$originalFilename = $filesService->getOriginalFileName($uploadBanner);
 
 					$safeFilename = $slugger->slug($originalFilename);
-					$newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+					$newBannerFilename = $filesService->getNewFileName($safeFilename, $uploadBanner);
 
 					// Add try-catch to catch if an error occurs during moving file in the storage directory
 					try {
 
-						$uploadedFile->move(
+						$uploadBanner->move(
 							$this->getParameter('images_directory'),
-							$newFilename
+							$newBannerFilename
 						);
 
 					} catch (FileException $exception) {
@@ -229,20 +234,71 @@ class FigureController extends AbstractController
 						$this->redirectToRoute("app_figure_create");
 					}
 
+					$images = $figure->getImages()->getValues();
+					foreach($images as $image)
+					{
+						if($image->isBanner())
+						{
+							$image->setBanner();
+							$entityManager->persist($image);
+						}
+					}
+
 					$imageEntity = new Image();
-					$imageEntity->setPath($newFilename);
+					$imageEntity->setPath($newBannerFilename);
+					$imageEntity->setBanner(true);
 					$imageEntity->setUser($this->getUser());
 
 					$figure->addImage($imageEntity);
 				}
 
+				// File upload part
+				$uploadedFiles = $form->get('image')->getData();
+
+				if($uploadedFiles)
+				{
+					foreach($uploadedFiles as $file)
+					{
+						$originalFilename = $filesService->getOriginalFileName($file);
+
+						$safeFilename = $slugger->slug($originalFilename);
+						$newFilename = $filesService->getNewFileName($safeFilename, $file);
+
+						// Add try-catch to catch if an error occurs during moving file in the storage directory
+						try {
+
+							$file->move(
+								$this->getParameter('images_directory'),
+								$newFilename
+							);
+
+						} catch (FileException $exception) {
+
+							$this->addFlash("error", "Une erreur est intervenue, veuillez réessayer");
+
+							$this->redirectToRoute("app_figure_create");
+						}
+						$imageEntity = new Image();
+						$imageEntity->setPath($newFilename);
+						$imageEntity->setUser($this->getUser());
+
+						$figure->addImage($imageEntity);
+					}
+
+				}
+
 				// Upload video string path part
 				$videoPath = $form->get("video")->getData();
 
-				$result = $videoRegex->getVideoUrl($videoPath);
-
-				if($result)
+				if($videoPath)
 				{
+					$result = $videoRegex->getVideoUrl($videoPath);
+
+					if(!$result)
+					{
+						throw new Exception("Veuillez renseigner l'url du bouton 'integrer' de partage youtube.");
+					}
+
 					$videoEntity = new Video();
 					$videoEntity->setPath($result[0]);
 					$videoEntity->setUser($this->getUser());

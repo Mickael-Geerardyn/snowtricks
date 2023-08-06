@@ -19,14 +19,19 @@
             <div class="col">
                 <div class="card h-100">
                 {% for banner in figure.images %}
-                    <img src="{{ (banner is not empty and banner.isBanner is
-                    same as true) ? asset('images/' ~ banner.getPath())
+                    <img src="{{ ((banner is not empty) and (banner.isBanner
+                    is same as true )) ?
+                    asset('images/' ~ banner.getPath())
                     : ""
                     }}"
-                         class="card-img-top h-75 object-fit-cover" alt="...">
+                         class="card-img-top h-75"
+                         alt=".
+                         ..">
                     {% endfor %}
                     <div class="card-body row align-items-center">
-                        <p class="card-text col-8 col-lg-7 mb-0">
+                        <p class="card-text text-center {{ (app.user
+                        is empty) ? "col-12" : "col-8" }} {{ (app.user
+                        is empty) ? "col-lg-12" : "col-lg-7" }} mb-0">
                             <a href="{{ path("app_figure", {slug: figure.getSlug()})
                             }}">{{ figure.getName() }}</a></p>
                         {% if(app.user is not empty) %}

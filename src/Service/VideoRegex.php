@@ -2,14 +2,23 @@
 
 namespace App\Service;
 
+use Exception;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 class VideoRegex
 {
 	public function getVideoUrl(string $input): array
 	{
-		$pattern = '#(?<=src=").*?(?=")"#';
+			$srcPattern = '#(?<=src=").*?(?=")#';
+			//$urlPattern = '#https:\/{2}.*#';
 
-		preg_match($pattern, $input, $result);
+			preg_match($srcPattern, $input, $result);
 
-		return $result;
+			//if(!$result)
+			//{
+			//	preg_match($urlPattern, $input, $result);
+			//}
+
+			return $result;
 	}
 }
